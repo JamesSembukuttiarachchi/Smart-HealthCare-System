@@ -1,3 +1,6 @@
+# ignore project details files
+## projectdetails.txt
+
 # Logs
 logs
 *.log
