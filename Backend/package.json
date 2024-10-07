@@ -14,6 +14,7 @@
   "devDependencies": {
     "@eslint/js": "^9.12.0",
     "@types/express": "^5.0.0",
+    "@types/mongoose": "^5.11.97",
     "eslint": "^9.12.0",
     "globals": "^15.10.0",
     "nodemon": "^3.1.7",
