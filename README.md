@@ -6,22 +6,27 @@ This system will empower patients to manage their healthcare needs online, view 
 ## Key Features
 
 - Digital Health Card Integration
+
   Patients receive a digital health card linked to their account, accessible via web or mobile app.
   Options for using a physical card with a barcode or a mobile app with a QR code for easy access.
 
 - Patient Account Management
+
   Patients can update their information, view medical records, track treatment history, and manage appointments.
   Online payment options for services, including credit cards, cash, or health insurance (for private hospitals).
 
 - Automated Appointment Scheduling
+
   Patients can schedule and manage appointments through the system, with reminders for upcoming visits.
   Hospital staff can view and manage patient appointments, improving the efficiency of patient flow.
 
 - Data Analysis and Reporting
+
   Generate statistical reports for healthcare managers to analyze patient visits, peak times, and resource allocation.
   Insights into service utilization to optimize staffing and improve patient care.
 
 - System Flexibility
+
   Supports different payment models and healthcare services in both public and private hospitals.
   Adaptable to various healthcare regulations and requirements across different regions.
 
