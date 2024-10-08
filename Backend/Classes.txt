@@ -5,7 +5,7 @@ CLASSES
     - create, retrieve, update, delete
 
 - patient
-    - 
+    - name, email, contactno, gender
 
     - create, retrieve, update, delete
 
@@ -13,11 +13,12 @@ CLASSES
     - create, retrieve, update, delete
 
 - Appointment
-    - (patientname), (doctor), (hospital), date
+    - (patient), (doctor), (hospital), date
 
     - create, retrieve, update, delete
 
 - Prescription
+    - prescriptionID, (patient), (doctor), date, medicationdetails, notes
     - create, retrieve, update, delete
 
 - Payment
