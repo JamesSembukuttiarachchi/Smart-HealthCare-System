@@ -74,5 +74,3 @@ export const deleteHospital = async (req: Request, res: Response) => {
     }
   }
 };
-
-// Implement other CRUD operations similarly...

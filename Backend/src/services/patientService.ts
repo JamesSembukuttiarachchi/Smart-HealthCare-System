@@ -7,7 +7,7 @@ export const getAllPatients = async () => {
     return patients;
   } catch (error) {
     console.error("Error fetching patients in service:", error);
-    throw error; // Rethrow the error to be handled in the controller
+    throw error;
   }
 };
 
@@ -24,7 +24,7 @@ export const createPatient = async (patientData: {
     return savedPatient;
   } catch (error) {
     console.error("Error creating patient in service:", error);
-    throw error; // Rethrow the error to be handled in the controller
+    throw error;
   }
 };
 
@@ -48,7 +48,7 @@ export const updatePatient = async (
     return updatedPatient;
   } catch (error) {
     console.error("Error updating patient in service:", error);
-    throw error; // Rethrow the error to be handled in the controller
+    throw error;
   }
 };
 
@@ -62,6 +62,6 @@ export const deletePatient = async (id: string) => {
     return deletedPatient;
   } catch (error) {
     console.error("Error deleting patient in service:", error);
-    throw error; // Rethrow the error to be handled in the controller
+    throw error;
   }
 };

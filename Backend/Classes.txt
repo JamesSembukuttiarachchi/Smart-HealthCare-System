@@ -1,8 +1,22 @@
 CLASSES
 - doctor
+    - create, retrieve, update, delete
+
 - patient
+    - create, retrieve, update, delete
+
 - hospital
+    - create, retrieve, update, delete
 
 - Appointment
+    - create, retrieve, update, delete
+
 - Prescription
 - Payment
+
+
+
+------------------------------------------------------------------------
+
+- validations
+- error handling
