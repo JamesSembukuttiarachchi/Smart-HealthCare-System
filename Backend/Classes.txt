@@ -1,14 +1,20 @@
 CLASSES
 - doctor
+    - name, email, contactno, specialization, (hospital), (fee)
+
     - create, retrieve, update, delete
 
 - patient
+    - 
+
     - create, retrieve, update, delete
 
 - hospital
     - create, retrieve, update, delete
 
 - Appointment
+    - (patientname), (doctor), (hospital), date
+
     - create, retrieve, update, delete
 
 - Prescription
