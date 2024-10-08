@@ -12,6 +12,8 @@ CLASSES
     - create, retrieve, update, delete
 
 - Prescription
+    - create, retrieve, update, delete
+
 - Payment
 
 
@@ -20,3 +22,8 @@ CLASSES
 
 - validations
 - error handling
+
+- Model: Represents the schema for prescriptions and their relationships.
+- Service: Contains the business logic for creating, retrieving, updating, and deleting. 
+- Controller: Handles the HTTP requests, calls the service layer, and manages the responses.
+- Routes: Defines the API endpoints to interact with the resources.
