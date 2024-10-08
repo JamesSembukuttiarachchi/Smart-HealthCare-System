@@ -14,9 +14,9 @@ export const getAllPatients = async () => {
 // Create a new patient
 export const createPatient = async (patientData: {
   name: string;
-  age: number;
   gender: string;
   contactNumber: string;
+  email: string;
 }) => {
   try {
     const patient = new Patient(patientData);
@@ -33,9 +33,9 @@ export const updatePatient = async (
   id: string,
   patientData: {
     name?: string;
-    age?: number;
     gender?: string;
     contactNumber?: string;
+    email?: string;
   }
 ) => {
   try {
