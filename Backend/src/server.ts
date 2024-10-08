@@ -1,6 +1,7 @@
 import app from "./app";
 import mongoose from "mongoose";
 import env from "./util/validateEnv";
+import { Counter } from "./models/Counter"; // Import the Counter model
 
 class Database {
   private static instance: Database;
@@ -34,6 +35,17 @@ class Database {
       });
   }
 }
+
+// Initialize the counter collection if not already present
+const initializeCounters = async () => {
+  const counter = await Counter.findById("patientId");
+  if (!counter) {
+    await new Counter({ _id: "patientId", seq: 0 }).save();
+    console.log("Initialized patient ID counter.");
+  }
+};
+
+initializeCounters();
 
 const port = env.PORT;
 const database = Database.getInstance();

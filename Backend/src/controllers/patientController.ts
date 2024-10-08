@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import * as patientService from "../services/patientService";
 
+// Fetch all patients
 export const getAllPatients = async (req: Request, res: Response) => {
   try {
     console.log("Fetching all patients...");
@@ -11,6 +12,24 @@ export const getAllPatients = async (req: Request, res: Response) => {
     console.error("Error fetching patients:", error);
     if (error instanceof Error) {
       res.status(500).json({ message: error.message });
+    } else {
+      res.status(500).json({ message: "An unknown error occurred" });
+    }
+  }
+};
+
+// Fetch a patient by pid
+export const getPatientByPid = async (req: Request, res: Response) => {
+  const { pid } = req.params;
+  try {
+    console.log(`Fetching patient with PID: ${pid}...`);
+    const patient = await patientService.getPatientByPid(pid);
+    console.log("Patient fetched successfully:", patient);
+    res.status(200).json(patient);
+  } catch (error) {
+    console.error("Error fetching patient by pid:", error);
+    if (error instanceof Error) {
+      res.status(404).json({ message: error.message });
     } else {
       res.status(500).json({ message: "An unknown error occurred" });
     }
@@ -35,13 +54,13 @@ export const createPatient = async (req: Request, res: Response) => {
   }
 };
 
-// Update a patient's information
+// Update a patient's information using pid
 export const updatePatient = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const { pid } = req.params; // Use pid from params
   const patientData = req.body;
   try {
-    console.log(`Updating patient with ID: ${id}...`);
-    const updatedPatient = await patientService.updatePatient(id, patientData);
+    console.log(`Updating patient with PID: ${pid}...`);
+    const updatedPatient = await patientService.updatePatient(pid, patientData);
     console.log("Patient updated successfully:", updatedPatient);
     res.status(200).json(updatedPatient);
   } catch (error) {
@@ -54,12 +73,12 @@ export const updatePatient = async (req: Request, res: Response) => {
   }
 };
 
-// Delete a patient
+// Delete a patient using pid
 export const deletePatient = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const { pid } = req.params; // Use pid from params
   try {
-    console.log(`Deleting patient with ID: ${id}...`);
-    const deletedPatient = await patientService.deletePatient(id);
+    console.log(`Deleting patient with PID: ${pid}...`);
+    const deletedPatient = await patientService.deletePatient(pid);
     console.log("Patient deleted successfully:", deletedPatient);
     res
       .status(200)
