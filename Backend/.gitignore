@@ -1,5 +1,6 @@
 # ignore project details files
 ## projectdetails.txt
+DS_Store
 
 # Logs
 logs
