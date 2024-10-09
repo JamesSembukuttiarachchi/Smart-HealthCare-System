@@ -13,7 +13,7 @@ const Dashboard: React.FC = () => {
             {/* Header Section */}
             <header className="flex justify-between items-center mb-8">
                 <h1 className="text-3xl font-bold text-gray-800">
-                    Good Morning, <span className="text-purple-600">Dr. Dinith!</span>
+                    Hello, <span className="text-purple-600">Dr. Dinith!</span>
                 </h1>
                 <input
                     type="text"
