@@ -1,19 +1,68 @@
 import React, { useState } from 'react';
-import PrescriptionForm from './PrescriptionForm'; // Import the PrescriptionForm component
+import { useNavigate } from 'react-router-dom';
+import dayjs from 'dayjs';
 
-const Dashboard: React.FC = () => {
-    const [showPrescriptionForm, setShowPrescriptionForm] = useState(false);
+const DoctorDashboard: React.FC = () => {
+    const navigate = useNavigate();
+
 
     const handleNewPrescriptionClick = () => {
-        setShowPrescriptionForm(true); // Show the PrescriptionForm component
+        navigate('/prescriptionform');
+    };
+
+    const handlePrescriptionHistoryClick = () => {
+        navigate('/allprescriptions')
+    };
+
+    const [currentDate, setCurrentDate] = useState(dayjs());
+
+    const startOfMonth = currentDate.startOf('month');
+    const startDayOfWeek = startOfMonth.day(); // 0 (Sunday) to 6 (Saturday)
+    const daysInMonth = currentDate.daysInMonth();
+
+    const handlePrevMonth = () => {
+        setCurrentDate(currentDate.subtract(1, 'month'));
+    };
+
+    const handleNextMonth = () => {
+        setCurrentDate(currentDate.add(1, 'month'));
+    };
+
+    const renderDays = () => {
+        const days = [];
+        const today = dayjs(); // Get the current date
+
+        // Fill in the empty cells before the start of the month
+        for (let i = 0; i < startDayOfWeek; i++) {
+            days.push(<div key={`empty-${i}`} className="text-gray-300"></div>);
+        }
+
+        // Render each day of the current month
+        for (let day = 1; day <= daysInMonth; day++) {
+            const currentDate = startOfMonth.date(day);
+            const isToday = today.isSame(currentDate, 'day');
+
+            days.push(
+                <div
+                    key={day}
+                    className={`p-2 rounded-full cursor-pointer ${isToday ? 'bg-purple-500 text-white' : 'hover:bg-purple-200'
+                        }`}
+                >
+                    {day}
+                </div>
+            );
+        }
+
+        return days;
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col p-8">
+
+        <div className="min-h-screen bg-gray-50 flex flex-col p-8 relative">
             {/* Header Section */}
             <header className="flex justify-between items-center mb-8">
                 <h1 className="text-3xl font-bold text-gray-800">
-                    Hello, <span className="text-purple-600">Dr. Dinith!</span>
+                    Hello, <span className="text-purple-600">Dr. Dinith! </span> Welcome to your Dashboard
                 </h1>
                 <input
                     type="text"
@@ -35,12 +84,10 @@ const Dashboard: React.FC = () => {
                         <div className="bg-gradient-to-r from-green-500 to-green-400 text-white p-6 rounded-lg shadow-md">
                             <h2 className="text-lg font-semibold">New Patients</h2>
                             <p className="text-5xl font-bold">4</p>
-                            <p className="text-sm text-green-100 mt-2">2% increase</p>
                         </div>
                         <div className="bg-gradient-to-r from-red-500 to-red-400 text-white p-6 rounded-lg shadow-md">
                             <h2 className="text-lg font-semibold">Old Patients</h2>
                             <p className="text-5xl font-bold">8</p>
-                            <p className="text-sm text-red-100 mt-2">12% decrease</p>
                         </div>
                     </div>
 
@@ -52,7 +99,8 @@ const Dashboard: React.FC = () => {
                         >
                             <h3 className="text-xl font-semibold">+ New Prescription</h3>
                         </div>
-                        <div className="bg-blue-100 text-gray-800 p-6 rounded-lg shadow-md flex flex-col items-center justify-center cursor-pointer hover:bg-blue-200 transition">
+                        <div className="bg-blue-100 text-gray-800 p-6 rounded-lg shadow-md flex flex-col items-center justify-center cursor-pointer hover:bg-blue-200 transition"
+                            onClick={handlePrescriptionHistoryClick}>
                             <h3 className="text-xl font-semibold">Prescription History</h3>
                         </div>
                     </div>
@@ -95,7 +143,17 @@ const Dashboard: React.FC = () => {
 
                     {/* Calendar Section */}
                     <div className="bg-white p-6 rounded-lg shadow-md">
-                        <h3 className="text-xl font-semibold mb-4 text-gray-800">Calendar</h3>
+                        <div className="flex justify-between items-center mb-4">
+                            <button onClick={handlePrevMonth} className="text-gray-600 hover:text-gray-800">
+                                &lt; Prev
+                            </button>
+                            <h3 className="text-xl font-semibold text-gray-800">
+                                {currentDate.format('MMMM YYYY')}
+                            </h3>
+                            <button onClick={handleNextMonth} className="text-gray-600 hover:text-gray-800">
+                                Next &gt;
+                            </button>
+                        </div>
                         <div className="grid grid-cols-7 gap-2 text-center text-sm text-gray-600">
                             <div className="font-bold">Sun</div>
                             <div className="font-bold">Mon</div>
@@ -104,9 +162,7 @@ const Dashboard: React.FC = () => {
                             <div className="font-bold">Thu</div>
                             <div className="font-bold">Fri</div>
                             <div className="font-bold">Sat</div>
-                            <div className="text-gray-400">4</div>
-                            <div className="text-gray-400">11</div>
-                            <div className="text-gray-400">18</div>
+                            {renderDays()}
                         </div>
                     </div>
 
@@ -117,11 +173,9 @@ const Dashboard: React.FC = () => {
                     </div>
                 </div>
             </div>
-
-            {/* Conditionally render the PrescriptionForm component */}
-            {showPrescriptionForm && <PrescriptionForm />}
         </div>
+
     );
 };
 
-export default Dashboard;
+export default DoctorDashboard;
