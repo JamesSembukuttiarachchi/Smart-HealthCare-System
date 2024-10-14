@@ -1,4 +1,5 @@
 //appointment service.tsx
+import mongoose from "mongoose";
 import Appointment from "../models/Appointment";
 
 // Get all appointments
@@ -30,8 +31,8 @@ export const getAppointmentsByDoctor = async (doctorId: string) => {
 // Create a new appointment
 export const createAppointment = async (appointmentData: {
   patientName: string;
-  doctorId: string;
-  hospitalId: string;
+  doctorId: mongoose.Schema.Types.ObjectId;
+  hospitalId: mongoose.Schema.Types.ObjectId;
   appointmentDate: Date;
   status: string;
 }) => {

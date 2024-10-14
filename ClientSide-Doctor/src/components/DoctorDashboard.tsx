@@ -1,20 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
+import axios from 'axios';
+
+// Define types for Appointment
+interface Appointment {
+    _id: string;
+    patientName: string;
+    appointmentDate: string;
+}
 
 const DoctorDashboard: React.FC = () => {
+    const doctorId = "6502a8c5c1256f9c1a2b3456";
+    const [appointments, setAppointments] = useState<Appointment[]>([]);
+    const [currentDate, setCurrentDate] = useState(dayjs());
+
     const navigate = useNavigate();
 
+    useEffect(() => {
+        const fetchAppointments = async () => {
+            try {
+                const response = await axios.get(`http://localhost:3000/api/appointments/doctor/${doctorId}`);
+                setAppointments(response.data); // Ensure the data matches Appointment type
+            } catch (error) {
+                console.error("Error fetching appointments:", error);
+            }
+        };
 
-    const handleNewPrescriptionClick = () => {
-        navigate('/prescriptionform');
-    };
-
-    const handlePrescriptionHistoryClick = () => {
-        navigate('/allprescriptions')
-    };
-
-    const [currentDate, setCurrentDate] = useState(dayjs());
+        if (doctorId) {
+            fetchAppointments();
+        }
+    }, [doctorId]);
 
     const startOfMonth = currentDate.startOf('month');
     const startDayOfWeek = startOfMonth.day(); // 0 (Sunday) to 6 (Saturday)
@@ -56,13 +72,20 @@ const DoctorDashboard: React.FC = () => {
         return days;
     };
 
-    return (
+    const handleNewPrescriptionClick = () => {
+        navigate('/prescriptionform');
+    };
 
+    const handlePrescriptionHistoryClick = () => {
+        navigate('/allprescriptions');
+    };
+
+    return (
         <div className="min-h-screen bg-gray-50 flex flex-col p-8 relative">
             {/* Header Section */}
             <header className="flex justify-between items-center mb-8">
                 <h1 className="text-3xl font-bold text-gray-800">
-                    Hello, <span className="text-purple-600">Dr. Dinith! </span> Welcome to your Dashboard
+                    Hello, <span className="text-purple-600">Dr. Dinith!</span> Welcome to your Dashboard
                 </h1>
                 <input
                     type="text"
@@ -109,26 +132,17 @@ const DoctorDashboard: React.FC = () => {
                     <div className="bg-white p-6 rounded-lg shadow-md">
                         <h3 className="text-xl font-semibold mb-4 text-gray-800">Patient List</h3>
                         <ul className="space-y-3">
-                            <li className="flex justify-between items-center py-2 border-b border-gray-200">
-                                <span className="text-gray-700">Kirushan A</span>
-                                <span className="text-xs text-gray-500">9:50 AM</span>
-                            </li>
-                            <li className="flex justify-between items-center py-2 border-b border-gray-200">
-                                <span className="text-gray-700">Anjana Horagolla</span>
-                                <span className="text-xs text-gray-500">9:15 AM</span>
-                            </li>
-                            <li className="flex justify-between items-center py-2 border-b border-gray-200">
-                                <span className="text-gray-700">Gayashan D</span>
-                                <span className="text-xs text-gray-500">9:30 AM</span>
-                            </li>
-                            <li className="flex justify-between items-center py-2 border-b border-gray-200">
-                                <span className="text-gray-700">Janith Fernando</span>
-                                <span className="text-xs text-gray-500">9:50 AM</span>
-                            </li>
-                            <li className="flex justify-between items-center py-2 border-b border-gray-200">
-                                <span className="text-gray-700">Muditha Perera</span>
-                                <span className="text-xs text-gray-500">10:15 AM</span>
-                            </li>
+                            {appointments.map((appointment) => (
+                                <li key={appointment._id} className="flex justify-between items-center py-2 border-b border-gray-200">
+                                    <span className="text-gray-700">{appointment.patientName}</span>
+                                    <span className="text-xs text-gray-500">
+                                        {new Date(appointment.appointmentDate).toLocaleTimeString([], {
+                                            hour: '2-digit',
+                                            minute: '2-digit',
+                                        })}
+                                    </span>
+                                </li>
+                            ))}
                         </ul>
                     </div>
                 </div>
@@ -174,7 +188,6 @@ const DoctorDashboard: React.FC = () => {
                 </div>
             </div>
         </div>
-
     );
 };
 
