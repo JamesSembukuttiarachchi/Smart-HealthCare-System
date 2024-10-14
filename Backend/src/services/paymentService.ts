@@ -1,5 +1,10 @@
 // paymentService.ts
-import Payment from "../models/Payment";
+import {
+  createPaymentForAppointment as createPaymentInRepo,
+  getAllPayments as getAllPaymentsFromRepo,
+  updatePayment as updatePaymentInRepo,
+  deletePayment as deletePaymentInRepo,
+} from "../repositories/paymentRepository";
 
 // Create a payment for a booked appointment
 export const createPaymentForAppointment = async (paymentData: {
@@ -9,12 +14,7 @@ export const createPaymentForAppointment = async (paymentData: {
   amount: number;
 }) => {
   try {
-    const payment = new Payment({
-      ...paymentData,
-      paymentDate: new Date(),
-      status: "Pending",
-    });
-    const savedPayment = await payment.save();
+    const savedPayment = await createPaymentInRepo(paymentData);
     return savedPayment;
   } catch (error) {
     console.log("Error creating payment for appointment:", error); // Detailed error log
@@ -25,9 +25,7 @@ export const createPaymentForAppointment = async (paymentData: {
 // Get all payments
 export const getAllPayments = async () => {
   try {
-    const payments = await Payment.find().populate(
-      "appointmentId patientId hospitalId"
-    );
+    const payments = await getAllPaymentsFromRepo();
     return payments;
   } catch (error) {
     console.log("Error fetching payments:", error); // Detailed error log
@@ -43,9 +41,7 @@ export const updatePayment = async (
   }
 ) => {
   try {
-    const updatedPayment = await Payment.findByIdAndUpdate(id, paymentData, {
-      new: true,
-    });
+    const updatedPayment = await updatePaymentInRepo(id, paymentData);
     if (!updatedPayment) {
       console.log(`Payment with ID ${id} not found`); // Log if payment not found
       throw new Error("Payment not found");
@@ -60,7 +56,7 @@ export const updatePayment = async (
 // Delete a payment
 export const deletePayment = async (id: string) => {
   try {
-    const deletedPayment = await Payment.findByIdAndDelete(id);
+    const deletedPayment = await deletePaymentInRepo(id);
     if (!deletedPayment) {
       console.log(`Payment with ID ${id} not found`); // Log if payment not found
       throw new Error("Payment not found");

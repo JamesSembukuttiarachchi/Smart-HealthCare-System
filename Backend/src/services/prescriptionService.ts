@@ -1,12 +1,15 @@
 // prescriptionService.ts
-import Prescription from "../models/Prescription";
+import {
+  getAllPrescriptions as getAllPrescriptionsFromRepo,
+  createPrescription as createPrescriptionInRepo,
+  updatePrescription as updatePrescriptionInRepo,
+  deletePrescription as deletePrescriptionInRepo,
+} from "../repositories/prescriptionRepository";
 
 // Get all prescriptions
 export const getAllPrescriptions = async () => {
   try {
-    const prescriptions = await Prescription.find().populate(
-      "patientId doctorId"
-    );
+    const prescriptions = await getAllPrescriptionsFromRepo();
     return prescriptions;
   } catch (error) {
     console.log("Error fetching prescriptions:", error); // Detailed error log
@@ -23,8 +26,7 @@ export const createPrescription = async (prescriptionData: {
   notes: string;
 }) => {
   try {
-    const prescription = new Prescription(prescriptionData);
-    const savedPrescription = await prescription.save();
+    const savedPrescription = await createPrescriptionInRepo(prescriptionData);
     return savedPrescription;
   } catch (error) {
     console.log("Error creating prescription:", error); // Detailed error log
@@ -42,10 +44,9 @@ export const updatePrescription = async (
   }
 ) => {
   try {
-    const updatedPrescription = await Prescription.findByIdAndUpdate(
+    const updatedPrescription = await updatePrescriptionInRepo(
       id,
-      prescriptionData,
-      { new: true }
+      prescriptionData
     );
     if (!updatedPrescription) {
       console.log(`Prescription with ID ${id} not found`); // Log if prescription not found
@@ -61,7 +62,7 @@ export const updatePrescription = async (
 // Delete a prescription
 export const deletePrescription = async (id: string) => {
   try {
-    const deletedPrescription = await Prescription.findByIdAndDelete(id);
+    const deletedPrescription = await deletePrescriptionInRepo(id);
     if (!deletedPrescription) {
       console.log(`Prescription with ID ${id} not found`); // Log if prescription not found
       throw new Error("Prescription not found");

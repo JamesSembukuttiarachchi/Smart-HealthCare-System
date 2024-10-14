@@ -1,16 +1,20 @@
-//appointment service.tsx
+// appointmentService.ts
 import mongoose from "mongoose";
-import Appointment from "../models/Appointment";
+import {
+  getAllAppointments as getAllAppointmentsFromRepo,
+  getAppointmentsByDoctor as getAppointmentsByDoctorFromRepo,
+  createAppointment as createAppointmentInRepo,
+  updateAppointment as updateAppointmentInRepo,
+  deleteAppointment as deleteAppointmentInRepo,
+} from "../repositories/appointmentRepository";
 
 // Get all appointments
 export const getAllAppointments = async () => {
   try {
-    const appointments = await Appointment.find().populate(
-      "doctorId hospitalId"
-    );
+    const appointments = await getAllAppointmentsFromRepo();
     return appointments;
   } catch (error) {
-    console.log("Error fetching appointments:", error); // Detailed error log
+    console.log("Error fetching appointments:", error);
     throw new Error("Error fetching appointments");
   }
 };
@@ -18,9 +22,7 @@ export const getAllAppointments = async () => {
 // Get all appointments for a specific doctor
 export const getAppointmentsByDoctor = async (doctorId: string) => {
   try {
-    const appointments = await Appointment.find({ doctorId }).populate(
-      "doctorId hospitalId"
-    );
+    const appointments = await getAppointmentsByDoctorFromRepo(doctorId);
     return appointments;
   } catch (error) {
     console.log("Error fetching appointments for the doctor:", error);
@@ -37,11 +39,10 @@ export const createAppointment = async (appointmentData: {
   status: string;
 }) => {
   try {
-    const appointment = new Appointment(appointmentData);
-    const savedAppointment = await appointment.save();
-    return savedAppointment;
+    const appointment = await createAppointmentInRepo(appointmentData);
+    return appointment;
   } catch (error) {
-    console.log("Error creating appointment:", error); // Detailed error log
+    console.log("Error creating appointment:", error);
     throw new Error("Error creating appointment");
   }
 };
@@ -56,18 +57,17 @@ export const updateAppointment = async (
   }
 ) => {
   try {
-    const updatedAppointment = await Appointment.findByIdAndUpdate(
+    const updatedAppointment = await updateAppointmentInRepo(
       id,
-      appointmentData,
-      { new: true }
+      appointmentData
     );
     if (!updatedAppointment) {
-      console.log(`Appointment with ID ${id} not found`); // Log if appointment not found
+      console.log(`Appointment with ID ${id} not found`);
       throw new Error("Appointment not found");
     }
     return updatedAppointment;
   } catch (error) {
-    console.log("Error updating appointment:", error); // Detailed error log
+    console.log("Error updating appointment:", error);
     throw new Error("Error updating appointment");
   }
 };
@@ -75,14 +75,14 @@ export const updateAppointment = async (
 // Delete an appointment
 export const deleteAppointment = async (id: string) => {
   try {
-    const deletedAppointment = await Appointment.findByIdAndDelete(id);
+    const deletedAppointment = await deleteAppointmentInRepo(id);
     if (!deletedAppointment) {
-      console.log(`Appointment with ID ${id} not found`); // Log if appointment not found
+      console.log(`Appointment with ID ${id} not found`);
       throw new Error("Appointment not found");
     }
     return deletedAppointment;
   } catch (error) {
-    console.log("Error deleting appointment:", error); // Detailed error log
+    console.log("Error deleting appointment:", error);
     throw new Error("Error deleting appointment");
   }
 };

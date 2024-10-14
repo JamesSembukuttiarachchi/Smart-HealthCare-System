@@ -1,9 +1,15 @@
-import Doctor from "../models/Doctor";
+// doctorService.ts
+import {
+  getAllDoctors as getAllDoctorsFromRepo,
+  createDoctor as createDoctorInRepo,
+  updateDoctor as updateDoctorInRepo,
+  deleteDoctor as deleteDoctorInRepo,
+} from "../repositories/doctorRepository";
 
 // Fetch all doctors
 export const getAllDoctors = async () => {
   try {
-    const doctors = await Doctor.find();
+    const doctors = await getAllDoctorsFromRepo();
     return doctors;
   } catch (error) {
     console.error("Error fetching doctors in service:", error);
@@ -19,8 +25,7 @@ export const createDoctor = async (doctorData: {
   email: string;
 }) => {
   try {
-    const doctor = new Doctor(doctorData);
-    const savedDoctor = await doctor.save();
+    const savedDoctor = await createDoctorInRepo(doctorData);
     return savedDoctor;
   } catch (error) {
     console.error("Error creating doctor in service:", error);
@@ -39,9 +44,7 @@ export const updateDoctor = async (
   }
 ) => {
   try {
-    const updatedDoctor = await Doctor.findByIdAndUpdate(id, doctorData, {
-      new: true,
-    });
+    const updatedDoctor = await updateDoctorInRepo(id, doctorData);
     if (!updatedDoctor) {
       throw new Error("Doctor not found");
     }
@@ -55,7 +58,7 @@ export const updateDoctor = async (
 // Delete a doctor
 export const deleteDoctor = async (id: string) => {
   try {
-    const deletedDoctor = await Doctor.findByIdAndDelete(id);
+    const deletedDoctor = await deleteDoctorInRepo(id);
     if (!deletedDoctor) {
       throw new Error("Doctor not found");
     }

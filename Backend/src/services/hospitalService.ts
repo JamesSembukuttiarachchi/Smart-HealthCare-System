@@ -1,9 +1,15 @@
-import Hospital from "../models/Hospital";
+// hospitalService.ts
+import {
+  getAllHospitals as getAllHospitalsFromRepo,
+  createHospital as createHospitalInRepo,
+  updateHospital as updateHospitalInRepo,
+  deleteHospital as deleteHospitalInRepo,
+} from "../repositories/hospitalRepository";
 
 // Fetch all hospitals
 export const getAllHospitals = async () => {
   try {
-    const hospitals = await Hospital.find();
+    const hospitals = await getAllHospitalsFromRepo();
     return hospitals;
   } catch (error) {
     console.error("Error fetching hospitals in service:", error);
@@ -18,8 +24,7 @@ export const createHospital = async (hospitalData: {
   contactNumber: string;
 }) => {
   try {
-    const hospital = new Hospital(hospitalData);
-    const savedHospital = await hospital.save();
+    const savedHospital = await createHospitalInRepo(hospitalData);
     return savedHospital;
   } catch (error) {
     console.error("Error creating hospital in service:", error);
@@ -33,9 +38,7 @@ export const updateHospital = async (
   hospitalData: { name?: string; location?: string; contactNumber?: string }
 ) => {
   try {
-    const updatedHospital = await Hospital.findByIdAndUpdate(id, hospitalData, {
-      new: true,
-    });
+    const updatedHospital = await updateHospitalInRepo(id, hospitalData);
     if (!updatedHospital) {
       throw new Error("Hospital not found");
     }
@@ -49,7 +52,7 @@ export const updateHospital = async (
 // Delete a hospital
 export const deleteHospital = async (id: string) => {
   try {
-    const deletedHospital = await Hospital.findByIdAndDelete(id);
+    const deletedHospital = await deleteHospitalInRepo(id);
     if (!deletedHospital) {
       throw new Error("Hospital not found");
     }
