@@ -1,3 +1,4 @@
+//appointment service.tsx
 import Appointment from "../models/Appointment";
 
 // Get all appointments
@@ -10,6 +11,19 @@ export const getAllAppointments = async () => {
   } catch (error) {
     console.log("Error fetching appointments:", error); // Detailed error log
     throw new Error("Error fetching appointments");
+  }
+};
+
+// Get all appointments for a specific doctor
+export const getAppointmentsByDoctor = async (doctorId: string) => {
+  try {
+    const appointments = await Appointment.find({ doctorId }).populate(
+      "doctorId hospitalId"
+    );
+    return appointments;
+  } catch (error) {
+    console.log("Error fetching appointments for the doctor:", error);
+    throw new Error("Error fetching appointments for the doctor");
   }
 };
 

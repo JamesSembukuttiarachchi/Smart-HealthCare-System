@@ -97,7 +97,7 @@ const DoctorDashboard: React.FC = () => {
                             className="bg-pink-100 text-gray-800 p-6 rounded-lg shadow-md flex flex-col items-center justify-center cursor-pointer hover:bg-pink-200 transition"
                             onClick={handleNewPrescriptionClick}
                         >
-                            <h3 className="text-xl font-semibold">+ New Prescription</h3>
+                            <h3 className="text-xl font-semibold">New Prescription</h3>
                         </div>
                         <div className="bg-blue-100 text-gray-800 p-6 rounded-lg shadow-md flex flex-col items-center justify-center cursor-pointer hover:bg-blue-200 transition"
                             onClick={handlePrescriptionHistoryClick}>

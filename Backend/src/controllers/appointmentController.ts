@@ -1,3 +1,4 @@
+//apointment controller
 import { Request, Response } from "express";
 import * as appointmentService from "../services/appointmentService";
 
@@ -5,6 +6,22 @@ import * as appointmentService from "../services/appointmentService";
 export const getAllAppointments = async (req: Request, res: Response) => {
   try {
     const appointments = await appointmentService.getAllAppointments();
+    res.status(200).json(appointments);
+  } catch (error) {
+    res.status(500).json({
+      message:
+        error instanceof Error ? error.message : "An unknown error occurred",
+    });
+  }
+};
+
+// Get all appointments for a specific doctor
+export const getAppointmentsByDoctor = async (req: Request, res: Response) => {
+  const doctorId = req.params.doctorId; // assuming you send the doctor's ID in the request URL
+  try {
+    const appointments = await appointmentService.getAppointmentsByDoctor(
+      doctorId
+    );
     res.status(200).json(appointments);
   } catch (error) {
     res.status(500).json({
