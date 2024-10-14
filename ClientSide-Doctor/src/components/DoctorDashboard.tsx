@@ -85,7 +85,7 @@ const DoctorDashboard: React.FC = () => {
             {/* Header Section */}
             <header className="flex justify-between items-center mb-8">
                 <h1 className="text-3xl font-bold text-gray-800">
-                    Hello, <span className="text-purple-600">Dr. Dinith!</span> Welcome to your Dashboard
+                    Hello, <span className="text-purple-600">Dr. Alice Johnson!</span> Welcome to your Dashboard
                 </h1>
                 <input
                     type="text"
