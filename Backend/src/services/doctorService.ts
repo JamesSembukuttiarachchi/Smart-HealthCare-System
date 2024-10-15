@@ -2,9 +2,41 @@
 import {
   getAllDoctors as getAllDoctorsFromRepo,
   createDoctor as createDoctorInRepo,
+  findDoctorByEmail,
   updateDoctor as updateDoctorInRepo,
   deleteDoctor as deleteDoctorInRepo,
 } from "../repositories/doctorRepository";
+import jwt from "jsonwebtoken";
+import { SECRET_KEY } from "../config";
+
+//signup doctor
+export const signupDoctor = async (doctorData: {
+  name: string;
+  email: string;
+  specialization: string;
+  phone: string;
+  password: string;
+}) => {
+  const existingDoctor = await findDoctorByEmail(doctorData.email);
+  if (existingDoctor) {
+    throw new Error("Doctor already registered with this email.");
+  }
+  const newDoctor = await createDoctorInRepo(doctorData);
+  return newDoctor;
+};
+//login doctor
+export const loginDoctor = async (email: string, password: string) => {
+  const doctor = await findDoctorByEmail(email);
+  if (!doctor) {
+    throw new Error("Doctor not found with this email.");
+  }
+  const isMatch = await doctor.comparePassword(password);
+  if (!isMatch) {
+    throw new Error("Incorrect password.");
+  }
+  const token = jwt.sign({ id: doctor._id }, SECRET_KEY, { expiresIn: "1h" });
+  return { token, doctor };
+};
 
 // Fetch all doctors
 export const getAllDoctors = async () => {

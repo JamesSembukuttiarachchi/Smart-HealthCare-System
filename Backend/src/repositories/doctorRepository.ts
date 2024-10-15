@@ -6,6 +6,11 @@ export const getAllDoctors = async () => {
   return await Doctor.find();
 };
 
+// Find a doctor by email
+export const findDoctorByEmail = async (email: string) => {
+  return await Doctor.findOne({ email });
+};
+
 // Create a new doctor
 export const createDoctor = async (doctorData: {
   name: string;
