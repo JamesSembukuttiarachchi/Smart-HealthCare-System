@@ -1,19 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const PrescriptionForm: React.FC = () => {
-
+    const [patientName, setPatientName] = useState('');
+    const [medicationDetails, setMedicationDetails] = useState('');
+    const [notes, setNotes] = useState('');
     const navigate = useNavigate();
 
-    const handleButtonClick = () => {
-        navigate('/');
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        try {
+            const response = await axios.post('http://localhost:3000/api/prescriptions', {
+                patientName,
+                medicationDetails,
+                issueDate: new Date(), // Issue date will be the current date
+                notes,
+            });
+
+            console.log('Prescription saved successfully:', response.data);
+            navigate('/'); // Navigate to the home page on successful submission
+        } catch (error) {
+            console.error('Error saving prescription:', error);
+        }
     };
+
     return (
         <div className="bg-[#84D3E9] min-h-screen flex flex-col items-center p-4">
             <div className="bg-white w-full max-w-4xl p-8 rounded-lg shadow-md">
                 <h2 className="text-2xl font-bold mb-6 text-center">Patient's Prescription</h2>
 
-                <form>
+                <form onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="patientName">
                             Patient Name
@@ -21,6 +39,8 @@ const PrescriptionForm: React.FC = () => {
                         <input
                             id="patientName"
                             type="text"
+                            value={patientName}
+                            onChange={(e) => setPatientName(e.target.value)}
                             className="w-full p-3 bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
                             required
                         />
@@ -40,35 +60,14 @@ const PrescriptionForm: React.FC = () => {
                         />
                     </div>
 
-                    {/* <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="patientGroup">
-                            Patient Group
-                        </label>
-                        <select
-                            id="patientGroup"
-                            className="w-full p-3 bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
-                        >
-                            <option>Select Group</option>
-                        </select>
-                    </div> */}
-
-                    {/* <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="patientId">
-                            Patient ID
-                        </label>
-                        <input
-                            id="patientId"
-                            type="text"
-                            className="w-full p-3 bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
-                        />
-                    </div> */}
-
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="medication">
                             Medication
                         </label>
                         <textarea
                             id="medication"
+                            value={medicationDetails}
+                            onChange={(e) => setMedicationDetails(e.target.value)}
                             className="w-full p-3 bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
                             required
                         />
@@ -80,6 +79,8 @@ const PrescriptionForm: React.FC = () => {
                         </label>
                         <textarea
                             id="notes"
+                            value={notes}
+                            onChange={(e) => setNotes(e.target.value)}
                             className="w-full p-3 bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
                         />
                     </div>
@@ -87,7 +88,6 @@ const PrescriptionForm: React.FC = () => {
                     <button
                         type="submit"
                         className="bg-purple-600 text-white p-3 rounded-md w-full hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
-                        onClick={handleButtonClick}
                     >
                         Save Prescription
                     </button>
