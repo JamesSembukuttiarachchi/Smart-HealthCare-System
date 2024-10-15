@@ -1,5 +1,7 @@
 import express from "express";
 import {
+  signupPatient,
+  loginPatient,
   getAllPatients,
   createPatient,
   updatePatient,
@@ -7,7 +9,11 @@ import {
   getPatientByPid, // Import the new function to get a patient by pid
 } from "../controllers/patientController";
 
+
 const router = express.Router();
+
+router.post("/patients/signup", signupPatient);
+router.post("/patients/login", loginPatient);
 
 // Route for fetching all patients
 router.get("/patients", getAllPatients);

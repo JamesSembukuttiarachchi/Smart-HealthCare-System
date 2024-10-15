@@ -1,6 +1,36 @@
 import { Request, Response } from "express";
 import * as patientService from "../services/patientService";
 
+// Signup patient
+export const signupPatient = async (req: Request, res: Response) => {
+  try {
+    const patientData = req.body;
+    const newPatient = await patientService.signupPatient(patientData);
+    res.status(201).json(newPatient);
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(400).json({ message: error.message });
+    } else {
+      res.status(400).json({ message: "An unknown error occurred" });
+    }
+  }
+};
+
+// Login patient
+export const loginPatient = async (req: Request, res: Response) => {
+  try {
+    const { email, password } = req.body;
+    const result = await patientService.loginPatient(email, password);
+    res.status(200).json(result);
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(400).json({ message: error.message });
+    } else {
+      res.status(400).json({ message: "An unknown error occurred" });
+    }
+  }
+};
+
 // Fetch all patients
 export const getAllPatients = async (req: Request, res: Response) => {
   try {
