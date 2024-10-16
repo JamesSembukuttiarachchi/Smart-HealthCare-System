@@ -19,7 +19,12 @@ export const createHospital = async (hospitalData: {
 // Update a hospital's information
 export const updateHospital = async (
   id: string,
-  hospitalData: { name?: string; location?: string; contactNumber?: string }
+  hospitalData: {
+    name?: string;
+    location?: string;
+    contactNumber?: string;
+    channellingFee?: number;
+  }
 ) => {
   return await Hospital.findByIdAndUpdate(id, hospitalData, { new: true });
 };

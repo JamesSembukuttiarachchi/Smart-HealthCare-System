@@ -35,7 +35,12 @@ export const createHospital = async (hospitalData: {
 // Update a hospital's information
 export const updateHospital = async (
   id: string,
-  hospitalData: { name?: string; location?: string; contactNumber?: string }
+  hospitalData: {
+    name?: string;
+    location?: string;
+    contactNumber?: string;
+    chennellingFee?: number;
+  }
 ) => {
   try {
     const updatedHospital = await updateHospitalInRepo(id, hospitalData);
