@@ -1,11 +1,12 @@
-import React from 'react';
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import DoctorDashboard from './pages/DoctorDashboard';
-import PrescriptionForm from '../src/components/PrescriptionForm';
-import AllPrescriptions from './components/AllPrescriptions';
-import DoctorSignup from './components/DoctorSignup';
-import DoctorLogin from './components/DoctorLogin';
-import PrescriptionView from './components/PrescriptionView';
+import DoctorDashboard from "./pages/DoctorDashboard";
+import PrescriptionForm from "../src/components/PrescriptionForm";
+import AllPrescriptions from "./components/AllPrescriptions";
+import DoctorSignup from "./components/DoctorSignup";
+import DoctorLogin from "./components/DoctorLogin";
+import PrescriptionView from "./components/PrescriptionView";
+import { AuthProvider } from "./context/AuthContext";
 
 // Create a sample prescription data object
 const samplePrescriptionData = {
@@ -20,32 +21,37 @@ const samplePrescriptionData = {
       name: "Medicine A",
       dosage: "500mg",
       quantity: 30,
-      instructions: "Take one tablet daily"
+      instructions: "Take one tablet daily",
     },
     {
       name: "Medicine B",
       dosage: "250mg",
       quantity: 15,
-      instructions: "Take one tablet twice a day"
-    }
-  ]
+      instructions: "Take one tablet twice a day",
+    },
+  ],
 };
 
 const App: React.FC = () => {
-
-
   return (
     <div>
       <BrowserRouter>
-        <Routes>
-          <Route path="/doctorlogin" element={<DoctorLogin />} />
-          <Route path="/doctorsignup" element={<DoctorSignup />} />
-          <Route path="/doctordashboard" element={<DoctorDashboard />} />
-          <Route path="/prescriptionform" element={<PrescriptionForm />} />
-          <Route path="/allprescriptions" element={<AllPrescriptions />} />
-          {/* Pass the required props to the PrescriptionView component */}
-          <Route path="/prescription" element={<PrescriptionView prescriptionData={samplePrescriptionData} />} />
-        </Routes>
+        <AuthProvider>
+          <Routes>
+            <Route path="/doctorlogin" element={<DoctorLogin />} />
+            <Route path="/doctorsignup" element={<DoctorSignup />} />
+            <Route path="/doctordashboard" element={<DoctorDashboard />} />
+            <Route path="/prescriptionform" element={<PrescriptionForm />} />
+            <Route path="/allprescriptions" element={<AllPrescriptions />} />
+            {/* Pass the required props to the PrescriptionView component */}
+            <Route
+              path="/prescription"
+              element={
+                <PrescriptionView prescriptionData={samplePrescriptionData} />
+              }
+            />
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </div>
   );
