@@ -73,6 +73,7 @@ export const updateDoctor = async (
     specialization?: string;
     phone?: string;
     email?: string;
+    availableHospitals?: string[];
   }
 ) => {
   try {

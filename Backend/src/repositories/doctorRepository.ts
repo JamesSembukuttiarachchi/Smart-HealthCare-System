@@ -30,6 +30,7 @@ export const updateDoctor = async (
     specialization?: string;
     phone?: string;
     email?: string;
+    availableHospitals?: string[];
   }
 ) => {
   return await Doctor.findByIdAndUpdate(id, doctorData, { new: true });
