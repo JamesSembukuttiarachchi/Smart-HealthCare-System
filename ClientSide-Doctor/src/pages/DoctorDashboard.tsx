@@ -10,8 +10,14 @@ interface Appointment {
     appointmentDate: string;
 }
 
+interface Hospital {
+    _id: string;
+    name: string;
+}
+
 const DoctorDashboard: React.FC = () => {
     const doctorId = "670f6848215f5ccab44e5c98";
+
     const [appointments, setAppointments] = useState<Appointment[]>([]);
     const [currentDate, setCurrentDate] = useState(dayjs());
 
@@ -21,16 +27,37 @@ const DoctorDashboard: React.FC = () => {
         const fetchAppointments = async () => {
             try {
                 const response = await axios.get(`http://localhost:3000/api/appointments/doctor/${doctorId}`);
-                setAppointments(response.data); // Ensure the data matches Appointment type
+                setAppointments(response.data);
             } catch (error) {
                 console.error("Error fetching appointments:", error);
             }
         };
 
+        const fetchHospitals = async () => {
+            try {
+                const response = await axios.get('http://localhost:3000/api/hospitals');
+                setHospitals(response.data);
+            } catch (error) {
+                console.error('Error fetching hospitals:', error);
+            }
+        };
+
+        fetchHospitals();
+
         if (doctorId) {
             fetchAppointments();
         }
     }, [doctorId]);
+
+    const [selectedHospital, setSelectedHospital] = useState<string>('');
+    const [hospitals, setHospitals] = useState<Hospital[]>([]);
+
+    const handleAddHospital = () => {
+        if (selectedHospital) {
+            setHospitals(prevHospitals => [...prevHospitals, { _id: selectedHospital, name: selectedHospital }]);
+            setSelectedHospital(''); // Clear the selected hospital
+        }
+    };
 
     const startOfMonth = currentDate.startOf('month');
     const startDayOfWeek = startOfMonth.day(); // 0 (Sunday) to 6 (Saturday)
@@ -149,12 +176,46 @@ const DoctorDashboard: React.FC = () => {
 
                 {/* Right Sidebar Section */}
                 <div className="col-span-4 space-y-6">
+
                     {/* Messages Section */}
                     <div className="bg-gradient-to-r from-teal-400 to-teal-300 p-6 rounded-lg shadow-md text-center text-white">
-                        <h3 className="text-xl font-semibold mb-2">Messages</h3>
-                        <p className="text-sm">No messages to display</p>
-                    </div>
+                        <div className='flex justify-between items-center gap-6 mb-8'>
+                            <h3 className="text-xl font-bold mb-2">Available Hospitals</h3>
 
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="select-hospital" className="sr-only">Select a hospital</label>
+                            <select
+                                id="select-hospital"
+                                value={selectedHospital}
+                                onChange={(e) => setSelectedHospital(e.target.value)}
+                                className="bg-white text-gray-500 rounded-md p-2"
+                            >
+                                <option value="" disabled>Select a hospital</option>
+                                {hospitals.map(hospital => (
+                                    <option key={hospital._id} value={hospital.name}>
+                                        {hospital.name}
+                                    </option>
+                                ))}
+                            </select>
+                            <button
+                                className='bg-blue-500 text-white py-2 px-4 rounded-md mt-4 ml-2'
+                                onClick={handleAddHospital}
+                            >
+                                Add
+                            </button>
+                        </div>
+
+                        {hospitals.length === 0 ? (
+                            <p className="text-sm font-semibold text-black">No hospitals added yet</p>
+                        ) : (
+                            <ul className="text-sm font-semibold text-black">
+                                {hospitals.map((hospital, index) => (
+                                    <li key={index} className="mb-1">{hospital.name}</li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
                     {/* Calendar Section */}
                     <div className="bg-white p-6 rounded-lg shadow-md">
                         <div className="flex justify-between items-center mb-4">
@@ -179,15 +240,19 @@ const DoctorDashboard: React.FC = () => {
                             {renderDays()}
                         </div>
                     </div>
-
                     {/* Upcoming Section */}
                     <div className="bg-white p-6 rounded-lg shadow-md">
-                        <h3 className="text-xl font-semibold mb-4 text-gray-800">Upcoming</h3>
+                        <h3 className="text-xl font-semibold mb-4 text-gray-800">Upcoming Appontments</h3>
                         <p className="text-sm text-gray-500">No upcoming events</p>
                     </div>
                 </div>
+
+
+
+
             </div>
         </div>
+
     );
 };
 
