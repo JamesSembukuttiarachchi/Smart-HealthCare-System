@@ -9,7 +9,7 @@ type ServiceCardProps = {
 
 const ServiceCard: React.FC<ServiceCardProps> = ({ title, icon }) => {
   return (
-    <View className="bg-blue-300 rounded-xl p-4 items-center justify-center m-2 w-28">
+    <View className="bg-blue-500 rounded-xl p-4 items-center justify-center m-2 w-28">
       <Ionicons name={icon} size={32} color="white" />
       <Text className="text-white text-center mt-2">{title}</Text>
     </View>

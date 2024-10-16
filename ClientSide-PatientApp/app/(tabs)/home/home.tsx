@@ -1,8 +1,9 @@
-import { View, Text, ScrollView, TextInput } from 'react-native';
+import { View, Text, ScrollView, TextInput, Pressable } from 'react-native';
 import React from 'react';
 import ServiceCard from '@/components/ServiceCard';
 import DoctorCard from '@/components/DoctorCard';
 import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 
 const Home = () => {
   return (
@@ -39,7 +40,9 @@ const Home = () => {
           <Text className="text-sm text-blue-500">See all</Text>
         </View>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <Pressable onPress={() => router.push("/(tabs)/home/bookings/bookDoc")}>
           <ServiceCard title="Appointments" icon="calendar-outline" />
+          </Pressable>
           <ServiceCard title="Insurance Management" icon="shield-outline" />
           <ServiceCard title="Remote Consultations" icon="videocam-outline" />
         </ScrollView>
@@ -60,7 +63,7 @@ const Home = () => {
       {/* How can we help today */}
       <View className="mb-6">
         <Text className="text-xl font-bold mb-4">How can we help you today?</Text>
-        <View className="flex-row flex-wrap justify-between">
+        <View className="flex-row flex-wrap items-center justify-center">
           <ServiceCard title="Book appointments" icon="clipboard-outline" />
           <ServiceCard title="My prescriptions" icon="document-text-outline" />
           <ServiceCard title="Ask a doctor" icon="chatbubbles-outline" />

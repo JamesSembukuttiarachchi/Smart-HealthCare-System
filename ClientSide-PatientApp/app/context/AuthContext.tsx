@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         await SecureStore.setItemAsync("user", JSON.stringify(patient)); // Store user details
         setToken(token);
         setUser(patient);
-        router.replace("../(tabs)/home"); // Redirect to the home page
+        router.replace("../(tabs)/home/home"); // Redirect to the home page
       }
     } catch (error) {
       console.error("Login error:", error);
@@ -86,7 +86,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         await SecureStore.setItemAsync('user', JSON.stringify(patient));
         setToken(token);
         setUser(patient);
-        router.replace("../(tabs)/home"); // Redirect to the home page
+        router.replace("../(tabs)/home/home"); // Redirect to the home page
       }
     } catch (error) {
       console.error("Signup error:", error);
