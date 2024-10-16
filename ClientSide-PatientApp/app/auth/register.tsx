@@ -8,15 +8,27 @@ import BackButton from "@/components/BackButton";
 import CustomButton from "@/components/CustomButton";
 import CustomTextInput from "@/components/CustomTextInput";
 import regiseter from "@/assets/register.png";
+import { useAuth } from "../context/AuthContext";
 
 const Register = () => {
+  const {signup} = useAuth();
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
-  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [gender, setGender] = useState<string>("");
+  const [contactNumber, setContactNumber] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [isChecked, setIsChecked] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+
+  const handleSignup = async () => {
+    try {
+      await signup(name, gender, contactNumber, email, password);
+    } catch (err) {
+      setError('Signup failed: ' + err.message);
+    }
+  };
 
   return (
     <View className="flex-1 bg-white px-4">
@@ -24,6 +36,7 @@ const Register = () => {
         <BackButton />
         {/* Register Heading */}
         <Text className="text-3xl font-bold">Register</Text>
+
         <Text className="text-lg font-semibold mt-1 mb-3">
           Don’t have an account ?{" "}
           <Text className="text-blue-500">Create your account</Text>
@@ -45,10 +58,16 @@ const Register = () => {
         />
 
         <CustomTextInput
+          placeholder="Enter Gender"
+          value={gender}
+          onChangeText={setGender}
+        />
+
+        <CustomTextInput
           placeholder="Enter Your Phone Number"
           keyboardType="phone-pad"
-          value={phoneNumber}
-          onChangeText={setPhoneNumber}
+          value={contactNumber}
+          onChangeText={setContactNumber}
         />
 
         <View className="mb-4">
@@ -86,7 +105,7 @@ const Register = () => {
       </View>
 
       {/* Register Button */}
-      <CustomButton title="Register" onPress={() => router.push("/")} />
+      <CustomButton title="Register" onPress={handleSignup} />
 
       {/* Divider */}
       <View className="flex-row items-center my-6">
@@ -96,7 +115,7 @@ const Register = () => {
       {/* Sign In */}
       <View className="items-center">
         <Text className="text-sm">Already have an account?</Text>
-        <TouchableOpacity onPress={() => router.push("/login")}>
+        <TouchableOpacity onPress={() => router.push("./login")}>
           <Text className="text-blue-500">Sign In now</Text>
         </TouchableOpacity>
       </View>

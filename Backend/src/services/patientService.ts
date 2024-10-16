@@ -20,10 +20,12 @@ export const signupPatient = async (patientData: {
 }) => {
   const existingPatient = await findPatientByEmailRepo(patientData.email);
   if (existingPatient) {
-    throw new Error("Doctor already registered with this email.");
+    throw new Error("Patient already registered with this email.");
   }
-  const newDoctor = await createPatientInRepo(patientData);
-  return newDoctor;
+  const newPatient = await createPatientInRepo(patientData);
+  // Create JWT token for new patient
+  const token = jwt.sign({ id: newPatient._id }, SECRET_KEY, { expiresIn: "1h" });
+  return {token,newPatient};
 };
 
 //login patient

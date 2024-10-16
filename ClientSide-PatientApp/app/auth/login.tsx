@@ -6,13 +6,25 @@ import { useRouter } from "expo-router";
 import CustomTextInput from "@/components/CustomTextInput";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
+import { useAuth } from '../context/AuthContext';
 
 const login = () => {
+  const { login } = useAuth();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [rememberMe, setRememberMe] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+
+  const handleLogin = async () => {
+    try {
+      await login(email, password); // Call login function from AuthContext
+    } catch (err) {
+      setError('Login failed: ' + err.message);
+    }
+  };
+
   return (
     <View className="flex-1 justify-center items-center px-5 bg-white">
       <Image source={loginImg} className="w-full h-2/5 " resizeMode="contain" />
@@ -39,7 +51,7 @@ const login = () => {
       <CustomButton
         title="LOGIN"
         textStyles=""
-        onPress={() => router.push("/")}
+        onPress={handleLogin}
         customStyles="w-full"
       />
 
@@ -62,7 +74,7 @@ const login = () => {
         <Text className="text-gray-500">Don't have an account?</Text>
         <Text
           className="text-orange-500"
-          onPress={() => router.push("/register")}
+          onPress={() => router.push("./register")}
         >
           Sign up now
         </Text>

@@ -26,7 +26,7 @@ const WelcomeScreen = () => {
       <CustomButton
         title="LOGIN"
         textStyles=""
-        onPress={() => router.push("/login")}
+        onPress={() => router.push("/auth/login")}
         customStyles="w-full"
       />
 
@@ -46,7 +46,7 @@ const WelcomeScreen = () => {
         <Text className="text-gray-500">Don't have an account?</Text>
         <Text
           className="text-orange-500"
-          onPress={() => router.push("/register")}
+          onPress={() => router.push("/auth/register")}
         >
           Sign up now
         </Text>

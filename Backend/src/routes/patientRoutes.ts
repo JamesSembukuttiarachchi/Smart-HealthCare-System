@@ -22,7 +22,7 @@ router.get("/patients", getAllPatients);
 router.get("/patients/:pid", getPatientByPid); // New route for getting a patient by PID
 
 // Route for creating a new patient
-router.post("/patients", createPatient);
+//router.post("/patients", createPatient);
 
 // Route for updating a patient by pid
 router.put("/patients/:pid", updatePatient); // Updated to use pid instead of id
