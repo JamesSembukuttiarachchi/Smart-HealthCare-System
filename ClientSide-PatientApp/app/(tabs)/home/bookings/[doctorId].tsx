@@ -1,8 +1,9 @@
-// screens/BookingScreen.tsx
+//[doctorId].tsx
 import React from "react";
 import { View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
 import Button from "@/components/CustomButton"; // Make sure you have the Button component in the components folder
-import { useRouter } from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
+import { useDoctors } from '@/app/context/DoctorContext'; // Adjust the path
 import physio from "@/assets/physio.png";
 import patients from "@/assets/patients.png";
 import experience from "@/assets/experience.png";
@@ -10,9 +11,14 @@ import ratings from "@/assets/ratings.png";
 import message from "@/assets/Message.png";
 import video from "@/assets/video call.png";
 import audio from "@/assets/audio.png";
+import CustomButton from "@/components/CustomButton";
 
 const BookingScreen = () => {
+  const { doctorId } = useLocalSearchParams();
   const router = useRouter();
+  const { doctors } = useDoctors();
+
+  const selectedDoctor = doctors.find((doctor) => String(doctor._id) === String(doctorId));
 
   return (
     <ScrollView>
@@ -25,11 +31,11 @@ const BookingScreen = () => {
         <View className="mt-3 bg-white rounded-b-3xl">
           <Image source={physio} className="rounded-full self-center" />
           <View className="py-[-12px]">
-            <Text className="text-xl font-bold text-center">
-              Dr. Bellamy Nicholas
+          <Text className="text-xl font-bold text-center">
+              {selectedDoctor?.name}
             </Text>
             <Text className="text-base text-gray-600 text-center mb-6">
-              Virologist
+              {selectedDoctor?.specialization}
             </Text>
           </View>
 
@@ -43,7 +49,7 @@ const BookingScreen = () => {
         <View className="px-4 mt-4">
           <Text className="text-xl font-bold mb-2">About Doctor</Text>
           <Text className="text-base text-gray-500 mb-6">
-            Dr. Bellamy Nicholas is a top specialist at London Bridge Hospital
+            {selectedDoctor?.name} is a top specialist at London Bridge Hospital
             at London. He has achieved several awards and recognition for is
             contribution and service in his own field. He is available for
             private consultation.
@@ -66,12 +72,12 @@ const BookingScreen = () => {
           </View>
         </View>
 
-        <TouchableOpacity
-          className="bg-orange-500 py-3 rounded-2xl items-center mb-6 w-3/4 self-center"
-          onPress={() => router.push("/(tabs)/home/bookings/bookDoc")}
-        >
-          <Text className="text-white font-bold text-base">Book Appointment</Text>
-        </TouchableOpacity>
+
+        <CustomButton
+            title="Book Appointment"
+            onPress={()=> router.push({pathname: '/(tabs)/home/bookings/appointment', params: {doctorId: selectedDoctor?._id}})}
+            customStyles="mx-2 mb-2"
+        />
       </View>
     </ScrollView>
   );

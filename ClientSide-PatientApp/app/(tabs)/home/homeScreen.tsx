@@ -40,7 +40,7 @@ const Home = () => {
           <Text className="text-sm text-blue-500">See all</Text>
         </View>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <Pressable onPress={() => router.push("/(tabs)/home/bookings/bookDoc")}>
+          <Pressable onPress={() => router.push("/(tabs)/home/doctor-list")}>
           <ServiceCard title="Appointments" icon="calendar-outline" />
           </Pressable>
           <ServiceCard title="Insurance Management" icon="shield-outline" />
