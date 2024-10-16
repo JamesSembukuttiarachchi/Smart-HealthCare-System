@@ -1,6 +1,7 @@
 import React from 'react';
 import jsPDF from 'jspdf';
 import { useNavigate } from 'react-router-dom';
+import PrescriptionImg from '../assets/PrescriptionImg.jpeg'
 
 // Define TypeScript interfaces for prescription data and medicine details
 interface Medicine {
@@ -55,9 +56,16 @@ const PrescriptionView: React.FC<PrescriptionViewProps> = ({ prescriptionData })
 
     return (
         <div className="bg-[#84D3E9] min-h-screen flex flex-col items-center p-4">
+
             <div className="bg-white w-full max-w-4xl p-8 rounded-lg shadow-md">
                 <h2 className="text-center font-bold text-2xl mb-4">Patient's Prescription</h2>
-
+                <div className='flex flex-row  justify-center item-center'>
+                    <div className='w-1/3 '>
+                        <div>
+                            <img src={PrescriptionImg} alt="Prescription Illustration" />
+                        </div>
+                    </div>
+                </div>
                 <div className="patient-details mb-4">
                     <h3 className="font-bold">Patient Details</h3>
                     <p>{prescriptionData.patientName}</p>
