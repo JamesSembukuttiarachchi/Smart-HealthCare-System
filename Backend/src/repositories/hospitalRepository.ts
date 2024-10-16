@@ -6,10 +6,16 @@ export const getAllHospitals = async () => {
   return await Hospital.find();
 };
 
+// Find a doctor by email
+export const findHospitalByEmail = async (email: string) => {
+  return await Hospital.findOne({ email });
+};
+
 // Create a new hospital
 export const createHospital = async (hospitalData: {
   name: string;
   location: string;
+  email: string;
   contactNumber: string;
 }) => {
   const hospital = new Hospital(hospitalData);
@@ -22,6 +28,7 @@ export const updateHospital = async (
   hospitalData: {
     name?: string;
     location?: string;
+    email?: string;
     contactNumber?: string;
     channellingFee?: number;
   }

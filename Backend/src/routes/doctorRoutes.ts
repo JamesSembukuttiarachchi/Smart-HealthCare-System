@@ -1,6 +1,7 @@
 import express from "express";
-import { signupDoctor, loginDoctor } from "../controllers/doctorController";
 import {
+  signupDoctor,
+  loginDoctor,
   getAllDoctors,
   createDoctor,
   updateDoctor,

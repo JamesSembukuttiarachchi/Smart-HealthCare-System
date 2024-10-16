@@ -1,10 +1,13 @@
 // hospitalService.ts
 import {
   getAllHospitals as getAllHospitalsFromRepo,
+  findHospitalByEmail,
   createHospital as createHospitalInRepo,
   updateHospital as updateHospitalInRepo,
   deleteHospital as deleteHospitalInRepo,
 } from "../repositories/hospitalRepository";
+import jwt from "jsonwebtoken";
+import { SECRET_KEY } from "../config";
 
 // Fetch all hospitals
 export const getAllHospitals = async () => {
@@ -17,10 +20,40 @@ export const getAllHospitals = async () => {
   }
 };
 
+//signup doctor
+export const signupHospital = async (hospitalData: {
+  name: string;
+  location: string;
+  email: string;
+  contactNumber: string;
+  channellingFee: number;
+  password: string;
+}) => {
+  const existingHospital = await findHospitalByEmail(hospitalData.email);
+  if (existingHospital) {
+    throw new Error("Doctor already registered with this email.");
+  }
+  const newHospital = await createHospitalInRepo(hospitalData);
+  return newHospital;
+};
+//login doctor
+export const loginHospital = async (email: string, password: string) => {
+  const hospital = await findHospitalByEmail(email);
+  if (!hospital) {
+    throw new Error("Hospital not found with this email.");
+  }
+  const isMatch = await hospital.comparePassword(password);
+  if (!isMatch) {
+    throw new Error("Incorrect password.");
+  }
+  const token = jwt.sign({ id: hospital._id }, SECRET_KEY, { expiresIn: "1h" });
+  return { token, hospital };
+};
 // Create a new hospital
 export const createHospital = async (hospitalData: {
   name: string;
   location: string;
+  email: string;
   contactNumber: string;
 }) => {
   try {
@@ -38,6 +71,7 @@ export const updateHospital = async (
   hospitalData: {
     name?: string;
     location?: string;
+    email?: string;
     contactNumber?: string;
     chennellingFee?: number;
   }
