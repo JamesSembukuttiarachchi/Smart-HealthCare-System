@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import DoctorDashboard from '../src/components/DoctorDashboard';
+import DoctorDashboard from './pages/DoctorDashboard';
 import PrescriptionForm from '../src/components/PrescriptionForm';
 import AllPrescriptions from './components/AllPrescriptions';
 import DoctorSignup from './components/DoctorSignup';
