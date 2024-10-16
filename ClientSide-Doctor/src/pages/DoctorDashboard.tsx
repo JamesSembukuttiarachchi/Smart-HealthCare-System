@@ -11,7 +11,7 @@ interface Appointment {
 }
 
 const DoctorDashboard: React.FC = () => {
-    const doctorId = "6502a8c5c1256f9c1a2b3456";
+    const doctorId = "670f6848215f5ccab44e5c98";
     const [appointments, setAppointments] = useState<Appointment[]>([]);
     const [currentDate, setCurrentDate] = useState(dayjs());
 
@@ -85,7 +85,7 @@ const DoctorDashboard: React.FC = () => {
             {/* Header Section */}
             <header className="flex justify-between items-center mb-8">
                 <h1 className="text-3xl font-bold text-gray-800">
-                    Hello, <span className="text-purple-600">Dr. Alice Johnson!</span> Welcome to your Dashboard
+                    Hello, <span className="text-purple-600">Dr. Minindi Fonseka!</span> Welcome to your Dashboard
                 </h1>
                 <input
                     type="text"

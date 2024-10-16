@@ -42,7 +42,7 @@ const DoctorSignup: React.FC = () => {
         <div className="flex h-screen bg-[#84D3E9]">
             <div className="w-1/2 flex items-center justify-center">
                 <div className="bg-white p-8 rounded-lg shadow-md w-96">
-                    <h2 className="text-2xl font-semibold text-center mb-4">Signup</h2>
+                    <h2 className="text-2xl font-semibold text-center mb-4">Get Started</h2>
                     {errorMessage && <p className="text-red-500 text-sm">{errorMessage}</p>}
                     {successMessage && <p className="text-green-500 text-sm">{successMessage}</p>}
                     <form onSubmit={handleSubmit}>
@@ -51,8 +51,12 @@ const DoctorSignup: React.FC = () => {
                             <input
                                 type="text"
                                 name="name"
-                                value={formData.name}
-                                onChange={handleChange}
+                                value={`Dr. ${formData.name}`}
+                                onChange={(e) => {
+                                    // Remove "Dr." prefix from the input value while typing
+                                    const nameWithoutPrefix = e.target.value.replace(/^Dr\. /i, '');
+                                    setFormData({ ...formData, name: nameWithoutPrefix });
+                                }}
                                 required
                                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-200"
                                 placeholder="Enter your name"
