@@ -32,10 +32,7 @@ const samplePrescriptionData = {
 };
 
 const App: React.FC = () => {
-  const handleBack = () => {
-    // Define what happens when the back button is clicked
-    console.log("Back button clicked");
-  };
+
 
   return (
     <div>
@@ -47,7 +44,7 @@ const App: React.FC = () => {
           <Route path="/prescriptionform" element={<PrescriptionForm />} />
           <Route path="/allprescriptions" element={<AllPrescriptions />} />
           {/* Pass the required props to the PrescriptionView component */}
-          <Route path="/prescription" element={<PrescriptionView prescriptionData={samplePrescriptionData} onBack={handleBack} />} />
+          <Route path="/prescription" element={<PrescriptionView prescriptionData={samplePrescriptionData} />} />
         </Routes>
       </BrowserRouter>
     </div>

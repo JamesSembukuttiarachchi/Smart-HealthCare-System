@@ -1,5 +1,6 @@
 import React from 'react';
 import jsPDF from 'jspdf';
+import { useNavigate } from 'react-router-dom';
 
 // Define TypeScript interfaces for prescription data and medicine details
 interface Medicine {
@@ -21,10 +22,11 @@ interface PrescriptionData {
 
 interface PrescriptionViewProps {
     prescriptionData: PrescriptionData;
-    onBack: () => void;
 }
 
-const PrescriptionView: React.FC<PrescriptionViewProps> = ({ prescriptionData, onBack }) => {
+const PrescriptionView: React.FC<PrescriptionViewProps> = ({ prescriptionData }) => {
+    const navigate = useNavigate();
+
     const handleDownloadPdf = () => {
         const doc = new jsPDF();
         doc.text('Prescription Details', 10, 10);
@@ -47,38 +49,50 @@ const PrescriptionView: React.FC<PrescriptionViewProps> = ({ prescriptionData, o
         doc.save('prescription.pdf');
     };
 
+    const handleExitPdf = () => {
+        navigate('/allprescriptions');
+    }
+
     return (
-        <div className="prescription-view p-4">
-            <button onClick={onBack} className="back-button text-blue-500">Back</button>
-            <h2 className="text-center font-bold text-2xl mb-4">My prescriptions</h2>
+        <div className="bg-[#84D3E9] min-h-screen flex flex-col items-center p-4">
+            <div className="bg-white w-full max-w-4xl p-8 rounded-lg shadow-md">
+                <h2 className="text-center font-bold text-2xl mb-4">Patient's Prescription</h2>
 
-            <div className="patient-details mb-4">
-                <h3 className="font-bold">Patient Details</h3>
-                <p>{prescriptionData.patientName}</p>
-                <p>Age: {prescriptionData.age}</p>
-                <p>Address: {prescriptionData.address}</p>
-                <p>Contact No: {prescriptionData.contactNo}</p>
-                <p>Prescription no: {prescriptionData.prescriptionNo}</p>
-                <p>Date: {prescriptionData.date}</p>
+                <div className="patient-details mb-4">
+                    <h3 className="font-bold">Patient Details</h3>
+                    <p>{prescriptionData.patientName}</p>
+                    <p>Age: {prescriptionData.age}</p>
+                    <p>Address: {prescriptionData.address}</p>
+                    <p>Contact No: {prescriptionData.contactNo}</p>
+                    <p>Prescription no: {prescriptionData.prescriptionNo}</p>
+                    <p>Date: {prescriptionData.date}</p>
+                </div>
+
+                <hr className="my-4" />
+
+                <div className="medicine-details mb-4">
+                    <h3 className="font-bold">Medicine Details</h3>
+                    {prescriptionData.medicines.map((medicine, index) => (
+                        <p key={index}>
+                            {medicine.name}, {medicine.dosage}; {medicine.quantity}; {medicine.instructions}
+                        </p>
+                    ))}
+                </div>
+                <div className='flex justify-center items-center gap-32 mb-8'>
+                    <button
+                        onClick={handleExitPdf}
+                        className="download-button bg-blue-500 text-white py-2 px-4 rounded-md mt-4"
+                    >
+                        Back
+                    </button>
+                    <button
+                        onClick={handleDownloadPdf}
+                        className="download-button bg-blue-500 text-white py-2 px-4 rounded-md mt-4"
+                    >
+                        Download PDF
+                    </button>
+                </div>
             </div>
-
-            <hr className="my-4" />
-
-            <div className="medicine-details mb-4">
-                <h3 className="font-bold">Medicine Details</h3>
-                {prescriptionData.medicines.map((medicine, index) => (
-                    <p key={index}>
-                        {medicine.name}, {medicine.dosage}; {medicine.quantity}; {medicine.instructions}
-                    </p>
-                ))}
-            </div>
-
-            <button
-                onClick={handleDownloadPdf}
-                className="download-button bg-blue-500 text-white py-2 px-4 rounded-md mt-4"
-            >
-                Download PDF
-            </button>
         </div>
     );
 };

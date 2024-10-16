@@ -5,7 +5,7 @@ const AllPrescriptions: React.FC = () => {
     const navigate = useNavigate();
 
     const handlePrescriptionClick = () => {
-        navigate('/prescriptionform');
+        navigate('/prescription');
     };
 
     const prescriptions = [
