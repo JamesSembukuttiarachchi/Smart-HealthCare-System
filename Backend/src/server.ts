@@ -51,6 +51,6 @@ const port = env.PORT;
 const database = Database.getInstance();
 database.connect();
 
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
   console.log("Server is listening on port: " + port);
 });

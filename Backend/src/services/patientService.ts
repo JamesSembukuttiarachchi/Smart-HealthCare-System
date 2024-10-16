@@ -1,11 +1,46 @@
 // patientService.ts
 import {
   getAllPatients as getAllPatientsFromRepo,
+  findPatientByEmail as findPatientByEmailRepo,
   getPatientByPid as getPatientByPidFromRepo,
   createPatient as createPatientInRepo,
   updatePatient as updatePatientInRepo,
   deletePatient as deletePatientInRepo,
 } from "../repositories/patientRepository";
+import jwt from "jsonwebtoken";
+import { SECRET_KEY } from "../config";
+
+//signup patient
+export const signupPatient = async (patientData: {
+  name: string;
+  gender: string;
+  contactNumber: string;
+  email: string;
+  password: string;
+}) => {
+  const existingPatient = await findPatientByEmailRepo(patientData.email);
+  if (existingPatient) {
+    throw new Error("Patient already registered with this email.");
+  }
+  const newPatient = await createPatientInRepo(patientData);
+  // Create JWT token for new patient
+  const token = jwt.sign({ id: newPatient._id }, SECRET_KEY, { expiresIn: "1h" });
+  return {token,newPatient};
+};
+
+//login patient
+export const loginPatient = async (email: string, password: string) => {
+  const patient = await findPatientByEmailRepo(email);
+  if (!patient) {
+    throw new Error("Patient not found with this email.");
+  }
+  const isMatch = await patient.comparePassword(password);
+  if (!isMatch) {
+    throw new Error("Incorrect password.");
+  }
+  const token = jwt.sign({ id: patient._id }, SECRET_KEY, { expiresIn: "1h" });
+  return { token, patient };
+};
 
 // Fetch all patients
 export const getAllPatients = async () => {
