@@ -38,7 +38,7 @@ const DoctorSignup: React.FC = () => {
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <div className="bg-white p-6 rounded-lg shadow-md w-96">
-                <h2 className="text-2xl font-semibold text-center mb-4">Doctor Signup</h2>
+                <h2 className="text-2xl font-semibold text-center mb-4">Signup</h2>
                 {errorMessage && <p className="text-red-500 text-sm">{errorMessage}</p>}
                 {successMessage && <p className="text-green-500 text-sm">{successMessage}</p>}
                 <form onSubmit={handleSubmit}>
