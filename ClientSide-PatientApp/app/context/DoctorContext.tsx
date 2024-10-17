@@ -5,6 +5,7 @@ type Doctor = {
   _id: string;
   name: string;
   specialization: string;
+  availableHospitals: string[]; // Array of hospital IDs
 };
 
 type DoctorContextType = {

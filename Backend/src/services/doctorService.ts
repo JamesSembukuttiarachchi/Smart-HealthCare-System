@@ -2,12 +2,14 @@
 import {
   getAllDoctors as getAllDoctorsFromRepo,
   createDoctor as createDoctorInRepo,
+  getDoctorById as getDoctorByIdRepo,
   findDoctorByEmail,
   updateDoctor as updateDoctorInRepo,
   deleteDoctor as deleteDoctorInRepo,
 } from "../repositories/doctorRepository";
 import jwt from "jsonwebtoken";
 import { SECRET_KEY } from "../config";
+import mongoose from "mongoose";
 
 //signup doctor
 export const signupDoctor = async (doctorData: {
@@ -24,6 +26,7 @@ export const signupDoctor = async (doctorData: {
   const newDoctor = await createDoctorInRepo(doctorData);
   return newDoctor;
 };
+
 //login doctor
 export const loginDoctor = async (email: string, password: string) => {
   const doctor = await findDoctorByEmail(email);
@@ -46,6 +49,20 @@ export const getAllDoctors = async () => {
   } catch (error) {
     console.error("Error fetching doctors in service:", error);
     throw error; // Rethrow the error to be handled in the controller
+  }
+};
+
+// Fetch a doctor by Id
+export const getDoctorById = async (id: string) => {
+  try {
+    const doctor = await getDoctorByIdRepo(id);
+    if (!doctor) {
+      throw new Error("Doctor not found");
+    }
+    return doctor;
+  } catch (error) {
+    console.error("Error fetching doctor by id in service:", error);
+    throw error;
   }
 };
 

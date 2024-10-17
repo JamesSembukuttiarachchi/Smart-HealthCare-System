@@ -104,7 +104,7 @@ const AppointmentScreen: React.FC = () => {
           <TouchableOpacity
             key={day}
             className={`px-4 py-2 ${
-              selectedDate === String(day) ? "bg-orange-400" : "bg-gray-200"
+              selectedDate === String(day) ? "bg-blue-400" : "bg-gray-200"
             } rounded mx-2`}
             onPress={() => setSelectedDate(String(day))}
           >
@@ -133,7 +133,7 @@ const AppointmentScreen: React.FC = () => {
           <TouchableOpacity
             key={time}
             className={`px-3 py-2 mb-2 ${
-              selectedTime === time ? "bg-orange-400" : "bg-gray-200"
+              selectedTime === time ? "bg-blue-400" : "bg-gray-200"
             } rounded-lg`}
             onPress={() => setSelectedTime(time)}
           >
@@ -144,6 +144,15 @@ const AppointmentScreen: React.FC = () => {
 
       {/* Patient Details */}
       <Text className="text-md mb-2">Patient Details</Text>
+
+      <Text className="font-semibold">Available Hospitals:</Text>
+          {selectedDoctor.availableHospitals.length > 0 ? (
+            selectedDoctor.availableHospitals.map((hospital) => (
+              <Text key={hospital._id}>- {hospital.name}</Text>
+            ))
+          ) : (
+            <Text>No hospitals available</Text>
+          )}
 
       <TextInput
         className="border border-gray-300 rounded px-4 py-2 mb-4"
@@ -164,7 +173,7 @@ const AppointmentScreen: React.FC = () => {
       <View className="flex-row justify-around mb-4">
         <TouchableOpacity
           className={`px-6 py-2 ${
-            gender === "Male" ? "bg-orange-400" : "bg-gray-200"
+            gender === "Male" ? "bg-blue-400" : "bg-gray-200"
           } rounded`}
           onPress={() => setGender("Male")}
         >
@@ -172,7 +181,7 @@ const AppointmentScreen: React.FC = () => {
         </TouchableOpacity>
         <TouchableOpacity
           className={`px-6 py-2 ${
-            gender === "Female" ? "bg-orange-400" : "bg-gray-200"
+            gender === "Female" ? "bg-blue-400" : "bg-gray-200"
           } rounded`}
           onPress={() => setGender("Female")}
         >

@@ -2,7 +2,7 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 interface IAppointment extends Document {
-  patientName: string;
+  patientId: mongoose.Types.ObjectId;
   doctorId: mongoose.Types.ObjectId; // Reference to the Doctor model
   hospitalId: mongoose.Types.ObjectId; // Reference to the Hospital model
   appointmentDate: Date;
@@ -10,7 +10,7 @@ interface IAppointment extends Document {
 }
 
 const AppointmentSchema: Schema = new Schema({
-  patientName: { type: String, required: true },
+  patientId: { type: mongoose.Schema.Types.ObjectId, ref: "Patient", required: true },
   doctorId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Doctor",

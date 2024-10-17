@@ -32,7 +32,7 @@ export const getAppointmentsByDoctor = async (doctorId: string) => {
 
 // Create a new appointment
 export const createAppointment = async (appointmentData: {
-  patientName: string;
+  patientId: mongoose.Schema.Types.ObjectId;
   doctorId: mongoose.Schema.Types.ObjectId;
   hospitalId: mongoose.Schema.Types.ObjectId;
   appointmentDate: Date;
@@ -51,7 +51,7 @@ export const createAppointment = async (appointmentData: {
 export const updateAppointment = async (
   id: string,
   appointmentData: {
-    patientName?: string;
+    patientId?: mongoose.Schema.Types.ObjectId;
     appointmentDate?: Date;
     status?: string;
   }

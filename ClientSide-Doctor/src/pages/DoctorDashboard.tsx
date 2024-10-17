@@ -58,19 +58,31 @@ const DoctorDashboard: React.FC = () => {
   const handleAddHospital = async () => {
     if (selectedHospital) {
       try {
-        // Assuming your hospital object has an _id and name
         const hospitalToAdd = hospitals.find(
           (hospital) => hospital.name === selectedHospital
         );
 
         if (hospitalToAdd) {
-          // Make a PUT request to update the doctor's availableHospital field
-          await axios.put(`http://localhost:3000/api/doctors/${doctorId}`, {
-            availableHospitals: hospitalToAdd._id,
-          });
+          // Fetch the current doctor's data to get the existing hospitals
+          const { data: doctorData } = await axios.get(`http://localhost:3000/api/doctors/${doctorId}`);
 
-          // Optionally update local state if needed
-          setHospitals((prevHospitals) => [...prevHospitals, hospitalToAdd]);
+          // Check if availableHospitals is already an array
+          const currentAvailableHospitals = doctorData.availableHospitals || [];
+
+          // Append the new hospital ID if it's not already included
+          if (!currentAvailableHospitals.includes(hospitalToAdd._id)) {
+            const updatedAvailableHospitals = [...currentAvailableHospitals, hospitalToAdd._id];
+
+            // Make a PUT request to update the doctor's availableHospitals field
+            await axios.put(`http://localhost:3000/api/doctors/${doctorId}`, {
+              availableHospitals: updatedAvailableHospitals,
+            });
+
+            // Optionally update local state if needed
+            setHospitals((prevHospitals) => [...prevHospitals, hospitalToAdd]);
+          } else {
+            console.log("Hospital already added");
+          }
         }
 
         setSelectedHospital(""); // Clear the selected hospital
@@ -79,6 +91,7 @@ const DoctorDashboard: React.FC = () => {
       }
     }
   };
+
 
   const handleLogout = () => {
     // Assuming your AuthContext has a logout method
