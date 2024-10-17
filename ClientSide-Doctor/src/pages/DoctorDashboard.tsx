@@ -7,7 +7,8 @@ import { useAuth } from "../context/AuthContext";
 // Define types for Appointment
 interface Appointment {
     _id: string;
-    patientName: string;
+    patientId: { name: string; _id: string };
+    hospitalId: { name: string; _id: string };
     appointmentDate: string;
 }
 
