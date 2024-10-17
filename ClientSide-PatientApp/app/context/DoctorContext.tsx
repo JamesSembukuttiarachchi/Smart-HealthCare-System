@@ -24,7 +24,7 @@ export const DoctorProvider: React.FC<DoctorProviderProps> = ({ children }) => {
 
   const fetchDoctors = async () => {
     try {
-      const response = await axios.get('http:///192.168.1.3:3000/api/doctors'); // Replace with your actual API
+      const response = await axios.get('http:///192.168.1.2:3000/api/doctors'); // Replace with your actual API
       setDoctors(response.data);
     } catch (error) {
       console.error('Error fetching doctors', error);

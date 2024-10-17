@@ -5,6 +5,7 @@ import { useRouter } from "expo-router";
 
 // Appointment type definition
 interface Appointment {
+    _id?: string; // Include _id to represent the ID from the backend
   patientId: string;
   doctorId: string;
   hospitalId: string;
@@ -15,6 +16,7 @@ interface Appointment {
 interface AppointmentContextType {
   appointments: Appointment[];
   createAppointment: (appointment: Appointment) => Promise<void>;
+  getAppointmentById: (appointmentId: string) => Promise<Appointment | null>;
 }
 
 const AppointmentContext = createContext<AppointmentContextType | undefined>(
@@ -30,14 +32,19 @@ export const AppointmentProvider = ({ children }: { children: ReactNode }) => {
   const createAppointment = async (appointment: Appointment) => {
     try {
       const response = await axios.post(
-        "http://192.168.1.3:3000/api/appointments",
+        "http://192.168.1.2:3000/api/appointments",
         appointment
       );
 
       if (response.status === 201) {
+        const createdAppointment = response.data;
         Alert.alert("Success", "Appointment created successfully!");
-        setAppointments([...appointments, appointment]);
-        router.push("/home/bookings/payment"); // Redirect after successful creation
+        setAppointments([...appointments, createdAppointment]);
+        router.push({
+            pathname: "/home/bookings/payment",
+            params: { appointmentId: createdAppointment._id },
+          }); // Redirect after successful creation
+
       } else {
         Alert.alert(
           "Error",
@@ -50,8 +57,31 @@ export const AppointmentProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  // Get appointment by ID function
+  const getAppointmentById = async (appointmentId: string): Promise<Appointment | null> => {
+    try {
+      const response = await axios.get(
+        `http://192.168.1.2:3000/api/appointments/${appointmentId}`
+      );
+
+      if (response.status === 200) {
+        return response.data; // Return the fetched appointment object
+      } else {
+        Alert.alert(
+          "Error",
+          response.data.message || "Appointment not found."
+        );
+        return null;
+      }
+    } catch (error) {
+      console.error("Error fetching appointment by ID:", error);
+      Alert.alert("Error", "Something went wrong while fetching the appointment.");
+      return null;
+    }
+  };
+
   return (
-    <AppointmentContext.Provider value={{ appointments, createAppointment }}>
+    <AppointmentContext.Provider value={{ appointments, createAppointment, getAppointmentById }}>
       {children}
     </AppointmentContext.Provider>
   );

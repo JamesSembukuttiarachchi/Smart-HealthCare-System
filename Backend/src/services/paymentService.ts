@@ -9,8 +9,6 @@ import {
 // Create a payment for a booked appointment
 export const createPaymentForAppointment = async (paymentData: {
   appointmentId: string;
-  patientId: string;
-  hospitalId: string;
   amount: number;
 }) => {
   try {

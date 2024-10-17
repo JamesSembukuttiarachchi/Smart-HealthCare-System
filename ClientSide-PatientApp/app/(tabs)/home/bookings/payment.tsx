@@ -1,11 +1,45 @@
-import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, ScrollView, Image } from "react-native";
-import { useRouter } from "expo-router";
-import pay from "@/assets/pay2.png"
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+  Image,
+  Alert,
+} from "react-native";
+import { useRouter, useLocalSearchParams } from "expo-router";
+import pay from "@/assets/pay2.png";
+import CustomButton from "@/components/CustomButton";
+import { useAppointments } from "@/app/context/AppointmentContext";
 
 const PaymentScreen = () => {
   const [selectedMethod, setSelectedMethod] = useState<string | null>("Card");
+  const { appointmentId } = useLocalSearchParams();
+  const {getAppointmentById} = useAppointments();
+  const [appointment, setAppointment] = useState<any>(null);
   const router = useRouter();
+
+  // Fetch the appointment details when the component mounts
+  useEffect(() => {
+    const fetchAppointment = async () => {
+      if (appointmentId) {
+        try {
+          const data = await getAppointmentById(appointmentId as string);
+          if (data) {
+            setAppointment(data);
+          } else {
+            Alert.alert("Error", "Failed to fetch appointment details.");
+          }
+        } catch (error) {
+          console.error("Error fetching appointment details:", error);
+          Alert.alert("Error", "Something went wrong while fetching details.");
+        }
+      }
+    };
+
+    fetchAppointment();
+  }, [appointmentId]);
 
   const handlePaymentMethodChange = (method: string) => {
     setSelectedMethod(method);
@@ -13,43 +47,44 @@ const PaymentScreen = () => {
 
   return (
     <ScrollView className="flex-1  bg-white">
-
-
       <View className="bg-gray-100 p-4 rounded-lg shadow-md">
-        <Text className="text-2xl font-bold text-center mb-4">Payments</Text>
+        <Text className="text-3xl font-bold text-center mb-4">Payments {appointmentId}</Text>
 
-        <View className="mb-4 font-semibold">
-          <View className="flex-row justify-between">
-            <Text>Doctor Payment</Text>
-            <Text>1500</Text>
+        {appointment ? (
+          <View className="mb-4">
+            <View className="flex-row justify-between">
+              <Text className="font-bold text-lg">
+                Doctor ID: {appointment.doctorId.name}
+              </Text>
+              <Text className="font-bold text-lg">1500</Text>
+            </View>
+            <View className="flex-row justify-between">
+              <Text className="font-bold text-lg">Booking Payment</Text>
+              <Text className="font-bold text-lg">300</Text>
+            </View>
+            <View className="flex-row justify-between">
+              <Text className="font-bold text-lg">Hospital {appointment.hospitalId.name}</Text>
+              <Text className="font-bold text-lg">500</Text>
+            </View>
+            <View className="border-t mt-2 pt-2 flex-row justify-between">
+              <Text className="font-bold text-lg">Sub Total</Text>
+              <Text className="font-bold text-lg">4800</Text>
+            </View>
           </View>
-          <View className="flex-row justify-between">
-            <Text>Booking Payment</Text>
-            <Text>300</Text>
-          </View>
-          <View className="flex-row justify-between">
-            <Text>Hospital Charge</Text>
-            <Text>500</Text>
-          </View>
-          <View className="flex-row justify-between">
-            <Text>Medicine</Text>
-            <Text>2500</Text>
-          </View>
-
-          <View className="border-t mt-2 pt-2 flex-row justify-between">
-            <Text className="font-semibold">Sub Total</Text>
-            <Text>4800</Text>
-          </View>
-        </View>
+        ) : (
+          <Text>Loading appointment details...</Text>
+        )}
 
         <Text className="font-semibold text-lg mb-2">Payment Method</Text>
         <View className="flex-row justify-between mb-4">
-          {["Cash", "Card", "Insurance"].map((method) => (
+          {["Cash", "Card"].map((method) => (
             <TouchableOpacity
               key={method}
               onPress={() => handlePaymentMethodChange(method)}
               className={`flex-1 p-2 border rounded-lg mr-2 ${
-                selectedMethod === method ? "bg-blue-100 border-blue-500" : "bg-white"
+                selectedMethod === method
+                  ? "bg-blue-100 border-blue-500"
+                  : "bg-white"
               }`}
             >
               <Text
@@ -87,16 +122,12 @@ const PaymentScreen = () => {
           />
         </View>
 
-        <TouchableOpacity className="bg-blue-500 p-4 rounded-lg mt-4 shadow-md">
-          <Text className="text-white text-center font-semibold">Pay</Text>
-        </TouchableOpacity>
+        <CustomButton title="Pay" onPress={() => router.push("/")} />
       </View>
 
       <View className="mt-10 items-center">
         {/* Replace this with an appropriate image component */}
-        <Image
-            source={pay}
-        />
+        <Image source={pay} />
       </View>
     </ScrollView>
   );

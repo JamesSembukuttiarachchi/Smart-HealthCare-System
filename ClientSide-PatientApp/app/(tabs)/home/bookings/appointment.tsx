@@ -73,7 +73,7 @@ const AppointmentScreen: React.FC = () => {
     const fetchAppointments = async () => {
       try {
         const response = await axios.get(
-          `http://192.168.1.3:3000/api/appointments/doctor/${doctorId}`,
+          `http://192.168.1.2:3000/api/appointments/doctor/${doctorId}`,
 
         );
         setAppointments(response.data);
