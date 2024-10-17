@@ -255,7 +255,7 @@ const DoctorDashboard: React.FC = () => {
                         <div className="flex justify-between items-center gap-6 mb-8">
                             <h3 className="text-xl font-bold mb-2">Available Hospitals</h3>
                         </div>
-                        <div className="mb-4">
+                        <div className="mb-2">
                             <label htmlFor="select-hospital" className="sr-only">
                                 Select a hospital
                             </label>
@@ -281,20 +281,21 @@ const DoctorDashboard: React.FC = () => {
                                 Add
                             </button>
                         </div>
-
-                        {hospitals.length === 0 ? (
-                            <p className="text-sm font-semibold text-black">
-                                No hospitals added yet
-                            </p>
-                        ) : (
-                            <ul className="text-sm font-semibold text-black">
-                                {hospitals.map((hospital, index) => (
-                                    <li key={index} className="mb-1">
-                                        {hospital.name}
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
+                        <div className="ml-12 text-left">
+                            {hospitals.length === 0 ? (
+                                <p className="text-sm font-semibold text-black">
+                                    No hospitals added yet
+                                </p>
+                            ) : (
+                                <ul className="text-sm font-semibold text-black">
+                                    {hospitals.map((hospital, index) => (
+                                        <li key={index} className="mb-1">
+                                            {hospital.name}
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </div>
                     </div>
                     {/* Calendar Section */}
                     <div className="bg-white p-6 rounded-lg shadow-md">
