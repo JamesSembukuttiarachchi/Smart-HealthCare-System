@@ -1,7 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from "../context/AuthContext";
+
 
 const AllPrescriptions: React.FC = () => {
+    const { user } = useAuth(); // Get the user details from AuthContext
+
     const navigate = useNavigate();
 
     const handlePrescriptionClick = () => {
@@ -24,7 +28,7 @@ const AllPrescriptions: React.FC = () => {
                 {/* Header */}
                 <div className="flex items-center justify-between mb-8">
                     <div>
-                        <button className="bg-green-600 text-white p-3 rounded-md w-full hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
+                        <button className="bg-green-600 text-white p-2 rounded-md w-full hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
                             onClick={handleBackButtonClick}
                         >
                             Back
@@ -44,8 +48,7 @@ const AllPrescriptions: React.FC = () => {
                                 alt="User Avatar"
                                 className="w-8 h-8 rounded-full border-2 border-gray-200"
                             />
-                            <span className="text-gray-700 font-medium">Dr. Diniith</span>
-                        </div>
+                            <span className="text-purple-600">Dr. {user.name}!</span>                        </div>
                     </div>
                 </div>
 
