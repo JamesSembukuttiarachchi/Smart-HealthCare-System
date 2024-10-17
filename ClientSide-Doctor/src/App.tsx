@@ -41,7 +41,7 @@ const App: React.FC = () => {
             <Route path="/doctorlogin" element={<DoctorLogin />} />
             <Route path="/doctorsignup" element={<DoctorSignup />} />
             <Route path="/doctordashboard" element={<DoctorDashboard />} />
-            <Route path="/prescriptionform" element={<PrescriptionForm />} />
+            <Route path="/prescriptionform/:appointmentId" element={<PrescriptionForm />} />
             <Route path="/allprescriptions" element={<AllPrescriptions />} />
             {/* Pass the required props to the PrescriptionView component */}
             <Route

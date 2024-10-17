@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
+import { FaFilePen } from "react-icons/fa6";
+import { CiLogout } from "react-icons/ci";
 
 // Define types for Appointment
 interface Appointment {
@@ -130,7 +132,7 @@ const DoctorDashboard: React.FC = () => {
             days.push(
                 <div
                     key={day}
-                    className={`p-2 rounded-full cursor-pointer ${isToday ? "bg-purple-500 text-white" : "hover:bg-purple-200"
+                    className={`p-2 rounded-md cursor-pointer ${isToday ? "bg-purple-500 text-white" : "hover:bg-purple-200"
                         }`}
                 >
                     {day}
@@ -141,9 +143,10 @@ const DoctorDashboard: React.FC = () => {
         return days;
     };
 
-    const handleNewPrescriptionClick = () => {
-        navigate("/prescriptionform");
+    const handleNewPrescriptionClick = (appointmentId: string) => {
+        navigate(`/prescriptionform/${appointmentId}`);
     };
+
 
     const handlePrescriptionHistoryClick = () => {
         navigate("/allprescriptions");
@@ -157,16 +160,15 @@ const DoctorDashboard: React.FC = () => {
                     Hello, <span className="text-purple-600">Dr. {user.name}!</span>{" "}
                     Welcome to your Dashboard
                 </h1>
-                <input
-                    type="text"
-                    placeholder="Search"
-                    className="border border-gray-300 rounded-full p-2 pl-4 shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
-                />
+
+
                 <button
-                    className="bg-red-500 text-white py-2 px-4 rounded-md ml-4"
+                    className="bg-red-500 hover:bg-red-600 transition text-white py-2 px-4 rounded-md ml-4"
                     onClick={handleLogout}
                 >
-                    Logout
+                    <div className="flex flex-row items-center justify-between gap-2">
+                        <CiLogout /> Logout
+                    </div>
                 </button>
             </header>
 
@@ -190,37 +192,37 @@ const DoctorDashboard: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* Action Section */}
-                    <div className="grid grid-cols-2 gap-6">
-                        <div
-                            className="bg-pink-100 text-gray-800 p-6 rounded-lg shadow-md flex flex-col items-center justify-center cursor-pointer hover:bg-pink-200 transition"
-                            onClick={handleNewPrescriptionClick}
-                        >
-                            <h3 className="text-xl font-semibold">New Prescription</h3>
-                        </div>
-                        <div
-                            className="bg-blue-100 text-gray-800 p-6 rounded-lg shadow-md flex flex-col items-center justify-center cursor-pointer hover:bg-blue-200 transition"
-                            onClick={handlePrescriptionHistoryClick}
-                        >
-                            <h3 className="text-xl font-semibold">Prescription History</h3>
-                        </div>
-                    </div>
-
                     {/* Patient List */}
                     <div className="bg-white p-6 rounded-lg shadow-md">
-                        <h3 className="text-xl font-semibold mb-4 text-gray-800">
-                            Patient List
-                        </h3>
+
+                        <div className="flex flex-row items-center justify-between mb-4">
+                            <h3 className="text-xl font-bold mb-0 text-gray-800">
+                                Your Patients List
+                            </h3>
+                            <input
+                                type="text"
+                                placeholder="Search"
+                                className="border border-gray-300 rounded-full p-2 pl-4 shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                            />
+                            <button
+                                className="bg-blue-200 hover:bg-blue-300 transition text-black py-2 px-4 rounded-md ml-4"
+                                onClick={handlePrescriptionHistoryClick}
+                            >
+                                <div className="flex flex-row items-center justify-between gap-2">
+                                    <FaFilePen /> All Prescriptions
+                                </div>
+                            </button>
+                        </div>
                         <ul className="space-y-3">
                             {appointments.map((appointment) => (
                                 <li
                                     key={appointment._id}
                                     className="flex justify-between items-center py-2 border-b border-gray-200"
                                 >
-                                    <span className="text-gray-700">
+                                    <span className="text-black-700 font-semibold text-lg">
                                         {appointment.patientId.name}
                                     </span>
-                                    <span className="text-gray-700">
+                                    <span className="text-black-700 text-lg">
                                         {appointment.hospitalId.name}
                                     </span>
                                     <span className="text-xs text-gray-500">
@@ -234,8 +236,10 @@ const DoctorDashboard: React.FC = () => {
                                     </span>
                                     <span>
                                         <button className="bg-purple-600 text-white p-2 rounded-md w-full hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
-                                            onClick={handleNewPrescriptionClick}>
-                                            Prescription
+                                            onClick={() => handleNewPrescriptionClick(appointment._id)}>
+                                            <div className="flex flex-row items-center justify-between gap-2">
+                                                <FaFilePen /> Prescription
+                                            </div>
                                         </button>
                                     </span>
                                 </li>

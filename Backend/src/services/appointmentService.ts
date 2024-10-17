@@ -2,6 +2,7 @@
 import mongoose from "mongoose";
 import {
   getAllAppointments as getAllAppointmentsFromRepo,
+  getAppointmentById as getAppointmentByIdRepo,
   getAppointmentsByDoctor as getAppointmentsByDoctorFromRepo,
   createAppointment as createAppointmentInRepo,
   updateAppointment as updateAppointmentInRepo,
@@ -16,6 +17,20 @@ export const getAllAppointments = async () => {
   } catch (error) {
     console.log("Error fetching appointments:", error);
     throw new Error("Error fetching appointments");
+  }
+};
+
+// Fetch a doctor by Id
+export const getAppointmentById = async (id: string) => {
+  try {
+    const appointment = await getAppointmentByIdRepo(id);
+    if (!appointment) {
+      throw new Error("Appointment not found");
+    }
+    return appointment;
+  } catch (error) {
+    console.error("Error fetching Appointment by id in service:", error);
+    throw error;
   }
 };
 

@@ -6,6 +6,12 @@ export const getAllAppointments = async () => {
   return await Appointment.find().populate("patientId doctorId hospitalId");
 };
 
+export const getAppointmentById = async (id: string) => {
+  return await Appointment.findById(id).populate(
+    "patientId doctorId hospitalId"
+  );
+};
+
 export const getAppointmentsByDoctor = async (doctorId: string) => {
   return await Appointment.find({ doctorId }).populate(
     "patientId doctorId hospitalId"
