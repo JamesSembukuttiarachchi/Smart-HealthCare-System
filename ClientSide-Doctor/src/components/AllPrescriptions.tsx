@@ -8,6 +8,10 @@ const AllPrescriptions: React.FC = () => {
         navigate('/prescription');
     };
 
+    const handleBackButtonClick = () => {
+        navigate('/doctordashboard');
+    };
+
     const prescriptions = [
         { name: 'Gayashan D', count: 4, description: 'Augmentin 625 Duo Tablet' },
         { name: 'Janith Fernando', count: 2, description: 'Azithral 500 Tablet' },
@@ -19,6 +23,13 @@ const AllPrescriptions: React.FC = () => {
             <div className="w-full max-w-5xl bg-white shadow-lg rounded-lg p-6">
                 {/* Header */}
                 <div className="flex items-center justify-between mb-8">
+                    <div>
+                        <button className="bg-green-600 text-white p-3 rounded-md w-full hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
+                            onClick={handleBackButtonClick}
+                        >
+                            Back
+                        </button>
+                    </div>
                     <h2 className="text-2xl font-bold text-gray-800">List of Prescriptions</h2>
                     <div className="flex items-center space-x-4">
                         <input

@@ -8,6 +8,10 @@ const PrescriptionForm: React.FC = () => {
     const [notes, setNotes] = useState('');
     const navigate = useNavigate();
 
+    const handleBackButtonClick = () => {
+        navigate('/doctordashboard');
+    };
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
@@ -84,13 +88,22 @@ const PrescriptionForm: React.FC = () => {
                             className="w-full p-3 bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
                         />
                     </div>
+                    <div className='flex justify-center items-center gap-32 mb-8'>
+                        <button
+                            className="bg-green-600 text-white p-3 rounded-md w-full hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
+                            onClick={handleBackButtonClick}
+                        >
+                            Back
+                        </button>
+                        <button
+                            type="submit"
+                            className="bg-purple-600 text-white p-3 rounded-md w-full hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
+                        >
+                            Save Prescription
+                        </button>
 
-                    <button
-                        type="submit"
-                        className="bg-purple-600 text-white p-3 rounded-md w-full hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
-                    >
-                        Save Prescription
-                    </button>
+                    </div>
+
                 </form>
             </div>
         </div>

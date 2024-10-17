@@ -19,7 +19,7 @@ export const getAllPrescriptions = async () => {
 
 // Create a new prescription
 export const createPrescription = async (prescriptionData: {
-  patientName: string;
+  appointmentId: string;
   medicationDetails: string;
   issueDate: Date;
   notes: string;
