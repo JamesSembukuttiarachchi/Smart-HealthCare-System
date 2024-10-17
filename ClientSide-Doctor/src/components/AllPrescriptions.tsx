@@ -1,13 +1,38 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../context/AuthContext";
+import axios from 'axios';
 
+interface Prescription {
+    _id: string;
+    appointmentId: { patientId: { name: string }, hospitalId: string };
+    medicationDetails: string;
+    appointmentDate: string;
+}
 
 const AllPrescriptions: React.FC = () => {
     const { user } = useAuth(); // Get the user details from AuthContext
 
     const navigate = useNavigate();
 
+    const [prescriptions, setPrescriptions] = useState<Prescription[]>([]);
+
+    useEffect(() => {
+        const fetchPrescription = async () => {
+            try {
+                const response = await axios.get(
+                    `http://localhost:3000/api/prescriptions`
+                );
+                setPrescriptions(response.data);
+            } catch (error) {
+                console.error("Error fetching appointments:", error);
+            }
+        };
+
+
+        fetchPrescription();
+
+    }, []);
     const handlePrescriptionClick = () => {
         navigate('/prescription');
     };
@@ -16,11 +41,7 @@ const AllPrescriptions: React.FC = () => {
         navigate('/doctordashboard');
     };
 
-    const prescriptions = [
-        { name: 'Gayashan D', count: 4, description: 'Augmentin 625 Duo Tablet' },
-        { name: 'Janith Fernando', count: 2, description: 'Azithral 500 Tablet' },
-        { name: 'Anjana Horagolla', count: 3, description: 'Anapthaline Cite' },
-    ];
+
 
     return (
         <div className="bg-[#84D3E9] min-h-screen flex justify-center p-8">
@@ -67,13 +88,11 @@ const AllPrescriptions: React.FC = () => {
                         <tbody className="text-gray-800 text-sm">
                             {prescriptions.map((prescription, index) => (
                                 <tr key={index} className="border-b border-gray-200 hover:bg-gray-50 transition">
-                                    <td className="py-4 px-6 text-left font-bold">{prescription.name}</td>
-                                    <td className="py-4 px-6 text-left">{prescription.count}</td>
-                                    <td className="py-4 px-6 text-left">{prescription.description}</td>
+                                    <td className="py-4 px-6 text-left font-bold">{prescription?.appointmentId?.patientId?.name}</td>
+                                    <td className="py-4 px-6 text-left">{prescription.medicationDetails}</td>
                                     <td className="py-4 px-6 text-center">
                                         <button
                                             className="bg-purple-600 text-white p-3 rounded-md w-full hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
-                                            aria-label={`view prescription for ${prescription.name}`}
                                             onClick={handlePrescriptionClick}
                                         >
                                             View
@@ -82,7 +101,6 @@ const AllPrescriptions: React.FC = () => {
                                     <td className="py-4 px-6 text-center">
                                         <button
                                             className="bg-red-600 text-white p-3 rounded-md w-full hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600"
-                                            aria-label={`Remove prescription for ${prescription.name}`}
                                         >
                                             Delete
                                         </button>
