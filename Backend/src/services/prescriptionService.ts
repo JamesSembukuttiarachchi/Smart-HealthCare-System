@@ -1,6 +1,7 @@
 // prescriptionService.ts
 import {
   getAllPrescriptions as getAllPrescriptionsFromRepo,
+  getPrescriptionById as getPrescriptionByIdRepo,
   createPrescription as createPrescriptionInRepo,
   updatePrescription as updatePrescriptionInRepo,
   deletePrescription as deletePrescriptionInRepo,
@@ -12,8 +13,22 @@ export const getAllPrescriptions = async () => {
     const prescriptions = await getAllPrescriptionsFromRepo();
     return prescriptions;
   } catch (error) {
-    console.log("Error fetching prescriptions:", error); // Detailed error log
+    console.log("Error fetching prescriptions:", error);
     throw new Error("Error fetching prescriptions");
+  }
+};
+
+// Fetch a prescription by Id
+export const getPrescriptionById = async (id: string) => {
+  try {
+    const prescription = await getPrescriptionByIdRepo(id);
+    if (!prescription) {
+      throw new Error("Prescription not found");
+    }
+    return prescription;
+  } catch (error) {
+    console.error("Error fetching prescription by id in service:", error);
+    throw error;
   }
 };
 

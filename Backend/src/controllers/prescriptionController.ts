@@ -17,6 +17,24 @@ export const getAllPrescriptions = async (req: Request, res: Response) => {
   }
 };
 
+// Fetch a prescription by id
+export const getPrescriptionById = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    console.log(`Fetching prescription with ID: ${id}...`);
+    const prescription = await prescriptionService.getPrescriptionById(id);
+    console.log("prescription fetched successfully:", prescription);
+    res.status(200).json(prescription);
+  } catch (error) {
+    console.error("Error fetching prescription by Id:", error);
+    if (error instanceof Error) {
+      res.status(404).json({ message: error.message });
+    } else {
+      res.status(500).json({ message: "An unknown error occurred" });
+    }
+  }
+};
+
 // Create a new prescription
 export const createPrescription = async (req: Request, res: Response) => {
   try {
