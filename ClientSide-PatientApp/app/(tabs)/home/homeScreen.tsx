@@ -43,7 +43,9 @@ const Home = () => {
           <Pressable onPress={() => router.push("/(tabs)/home/doctor-list")}>
           <ServiceCard title="Appointments" icon="calendar-outline" />
           </Pressable>
+          <Pressable onPress={() => router.push("/(tabs)/home/bookings/payment")}>
           <ServiceCard title="Insurance Management" icon="shield-outline" />
+          </Pressable>
           <ServiceCard title="Remote Consultations" icon="videocam-outline" />
         </ScrollView>
       </View>

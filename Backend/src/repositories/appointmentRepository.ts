@@ -3,18 +3,24 @@ import mongoose from "mongoose";
 import Appointment from "../models/Appointment";
 
 export const getAllAppointments = async () => {
-  return await Appointment.find().populate("doctorId hospitalId");
+  return await Appointment.find().populate("patientId doctorId hospitalId");
+};
+
+// Fetch a appointment by Id
+export const getAppointmentById = async (id: string) => {
+  return await Appointment.findById(id).populate("patientId doctorId hospitalId");
 };
 
 export const getAppointmentsByDoctor = async (doctorId: string) => {
-  return await Appointment.find({ doctorId }).populate("doctorId hospitalId");
+  return await Appointment.find({ doctorId }).populate("patientId doctorId hospitalId");
 };
 
 export const createAppointment = async (appointmentData: {
-  patientName: string;
+  patientId: mongoose.Schema.Types.ObjectId;
   doctorId: mongoose.Schema.Types.ObjectId;
   hospitalId: mongoose.Schema.Types.ObjectId;
   appointmentDate: Date;
+  appointmentTime: string;
   status: string;
 }) => {
   const appointment = new Appointment(appointmentData);
@@ -24,8 +30,9 @@ export const createAppointment = async (appointmentData: {
 export const updateAppointment = async (
   id: string,
   appointmentData: {
-    patientName?: string;
+    patientId?: mongoose.Schema.Types.ObjectId;
     appointmentDate?: Date;
+    appointmentTime?: string;
     status?: string;
   }
 ) => {

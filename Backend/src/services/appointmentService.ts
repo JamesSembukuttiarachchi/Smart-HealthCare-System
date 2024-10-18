@@ -2,6 +2,7 @@
 import mongoose from "mongoose";
 import {
   getAllAppointments as getAllAppointmentsFromRepo,
+  getAppointmentById as getAppointmentByIdFromRepo,
   getAppointmentsByDoctor as getAppointmentsByDoctorFromRepo,
   createAppointment as createAppointmentInRepo,
   updateAppointment as updateAppointmentInRepo,
@@ -19,6 +20,20 @@ export const getAllAppointments = async () => {
   }
 };
 
+// Fetch a appointment by Id
+export const getAppointmentById = async (id: string) => {
+  try {
+    const appointment = await getAppointmentByIdFromRepo(id);
+    if (!appointment) {
+      throw new Error("Appointment not found");
+    }
+    return appointment;
+  } catch (error) {
+    console.error("Error fetching appointment by id in service:", error);
+    throw error;
+  }
+};
+
 // Get all appointments for a specific doctor
 export const getAppointmentsByDoctor = async (doctorId: string) => {
   try {
@@ -32,10 +47,11 @@ export const getAppointmentsByDoctor = async (doctorId: string) => {
 
 // Create a new appointment
 export const createAppointment = async (appointmentData: {
-  patientName: string;
+  patientId: mongoose.Schema.Types.ObjectId;
   doctorId: mongoose.Schema.Types.ObjectId;
   hospitalId: mongoose.Schema.Types.ObjectId;
   appointmentDate: Date;
+  appointmentTime: string;
   status: string;
 }) => {
   try {
@@ -51,8 +67,9 @@ export const createAppointment = async (appointmentData: {
 export const updateAppointment = async (
   id: string,
   appointmentData: {
-    patientName?: string;
+    patientId?: mongoose.Schema.Types.ObjectId;
     appointmentDate?: Date;
+    appointmentTime?: string;
     status?: string;
   }
 ) => {
