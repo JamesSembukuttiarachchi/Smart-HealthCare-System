@@ -1,9 +1,10 @@
 // paymentRepository.ts
+import mongoose from "mongoose";
 import Payment from "../models/Payment";
 
 // Create a payment for a booked appointment
 export const createPaymentForAppointment = async (paymentData: {
-  appointmentId: string;
+  appointmentId: mongoose.Schema.Types.ObjectId;
   amount: number;
 }) => {
   const payment = new Payment({
@@ -18,6 +19,7 @@ export const createPaymentForAppointment = async (paymentData: {
 export const getAllPayments = async () => {
   return await Payment.find().populate("appointmentId");
 };
+
 
 // Update a payment
 export const updatePayment = async (

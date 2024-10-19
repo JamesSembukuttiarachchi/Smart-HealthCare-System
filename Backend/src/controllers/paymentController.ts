@@ -23,6 +23,22 @@ export const getAllPayments = async (req: Request, res: Response) => {
 };
 
 
+// Create a new payment
+export const createPayment = async (req: Request, res: Response) => {
+  try {
+    const paymentData = req.body;
+    const newPayment = await paymentService.createPaymentForAppointment(
+      paymentData
+    );
+    res.status(201).json(newPayment);
+  } catch (error) {
+    res.status(500).json({
+      message:
+        error instanceof Error ? error.message : "An unknown error occurred",
+    });
+  }
+};
+
 // Update a payment
 export const updatePayment = async (req: Request, res: Response) => {
   const { id } = req.params;

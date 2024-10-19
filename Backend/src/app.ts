@@ -25,6 +25,7 @@ app.use("/api", doctorRoutes);
 app.use("/api", patientRoutes);
 app.use("/api", hospitalRoutes);
 app.use("/api", appointmentRoutes);
+app.use("/api", paymentRoutes);
 app.use("/api", prescriptionRoutes);
 app.use("/api", paymentRoutes);
 

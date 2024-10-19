@@ -2,8 +2,6 @@ import mongoose, { Schema, Document } from "mongoose";
 
 interface IPayment extends Document {
   appointmentId: mongoose.Schema.Types.ObjectId;
-  patientId: mongoose.Schema.Types.ObjectId;
-  hospitalId: mongoose.Schema.Types.ObjectId;
   amount: number;
   paymentDate: Date;
   status: string;

@@ -1,4 +1,5 @@
 // paymentService.ts
+import mongoose from "mongoose";
 import {
   createPaymentForAppointment as createPaymentInRepo,
   getAllPayments as getAllPaymentsFromRepo,
@@ -8,7 +9,7 @@ import {
 
 // Create a payment for a booked appointment
 export const createPaymentForAppointment = async (paymentData: {
-  appointmentId: string;
+  appointmentId: mongoose.Schema.Types.ObjectId;
   amount: number;
 }) => {
   try {
