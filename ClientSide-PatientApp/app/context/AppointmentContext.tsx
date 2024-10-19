@@ -13,6 +13,7 @@ interface Appointment {
   appointmentTime: string;
 }
 
+
 interface AppointmentContextType {
   appointments: Appointment[];
   createAppointment: (appointment: Appointment) => Promise<void>;

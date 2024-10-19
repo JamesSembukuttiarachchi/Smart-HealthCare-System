@@ -7,6 +7,7 @@ import CustomTextInput from "@/components/CustomTextInput";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { useAuth } from '../context/AuthContext';
+import axios from "axios";
 
 const login = () => {
   const { login } = useAuth();
@@ -20,8 +21,11 @@ const login = () => {
   const handleLogin = async () => {
     try {
       await login(email, password); // Call login function from AuthContext
-    } catch (err) {
-      setError('Login failed: ' + err.message);
+    } catch (err:unknown) {
+      if(axios.isAxiosError(err)) {
+        setError('Login failed: ' + err.message);
+      }
+
     }
   };
 

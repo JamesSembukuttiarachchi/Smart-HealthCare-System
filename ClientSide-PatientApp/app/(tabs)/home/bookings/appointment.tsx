@@ -192,24 +192,25 @@ const AppointmentScreen: React.FC = () => {
 
       {/* Hospital Dropdown */}
       <Text className="font-semibold mb-2">Select Hospital</Text>
-      <View className="border border-gray-300 rounded  mb-4">
-        <Picker
-          selectedValue={selectedHospital}
-          onValueChange={(itemValue) => setSelectedHospital(itemValue)}
-        >
-          {selectedDoctor?.availableHospitals.length > 0 ? (
-            selectedDoctor.availableHospitals.map((hospital) => (
-              <Picker.Item
-                key={hospital._id}
-                label={hospital.name}
-                value={hospital._id}
-              />
-            ))
-          ) : (
-            <Picker.Item label="No hospitals available" value="" />
-          )}
-        </Picker>
-      </View>
+      <View className="border border-gray-300 rounded mb-4">
+  <Picker
+    selectedValue={selectedHospital}
+    onValueChange={(itemValue) => setSelectedHospital(itemValue)}
+  >
+    {selectedDoctor?.availableHospitals && selectedDoctor.availableHospitals.length > 0 ? (
+      selectedDoctor.availableHospitals.map((hospital) => (
+        <Picker.Item
+          key={hospital._id}
+          label={hospital.name}
+          value={hospital._id}
+        />
+      ))
+    ) : (
+      <Picker.Item label="No hospitals available" value="" />
+    )}
+  </Picker>
+</View>
+
 
       <TextInput
         className="border border-gray-300 rounded px-4 py-2 mb-4"

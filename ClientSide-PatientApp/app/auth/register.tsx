@@ -9,6 +9,7 @@ import CustomButton from "@/components/CustomButton";
 import CustomTextInput from "@/components/CustomTextInput";
 import regiseter from "@/assets/register.png";
 import { useAuth } from "../context/AuthContext";
+import axios from "axios";
 
 const Register = () => {
   const {signup} = useAuth();
@@ -25,8 +26,11 @@ const Register = () => {
   const handleSignup = async () => {
     try {
       await signup(name, gender, contactNumber, email, password);
-    } catch (err) {
-      setError('Signup failed: ' + err.message);
+    } catch (err:unknown) {
+      if(axios.isAxiosError(err)) {
+        setError('Login failed: ' + err.message);
+      }
+
     }
   };
 

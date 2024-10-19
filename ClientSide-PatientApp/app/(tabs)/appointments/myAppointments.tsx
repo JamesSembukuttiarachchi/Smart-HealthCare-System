@@ -29,7 +29,7 @@ const MyProfile = () => {
         <TouchableOpacity className="bg-white px-3 py-2 rounded-lg">
           <Text className="text-blue-500">Lab Reports</Text>
         </TouchableOpacity>
-        <TouchableOpacity className="bg-white px-3 py-2 rounded-lg">
+        <TouchableOpacity className="bg-white px-3 py-2 rounded-lg" onPress={() => router.push(`/(tabs)/appointments/prescriptions/${appointment._id}`)}>
           <Text className="text-blue-500">Prescriptions</Text>
         </TouchableOpacity>
       </View>
