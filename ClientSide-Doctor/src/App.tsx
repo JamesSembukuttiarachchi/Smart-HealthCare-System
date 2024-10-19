@@ -38,7 +38,7 @@ const App: React.FC = () => {
       <BrowserRouter>
         <AuthProvider>
           <Routes>
-            <Route path="/doctorlogin" element={<DoctorLogin />} />
+            <Route path="/" element={<DoctorLogin />} />
             <Route path="/doctorsignup" element={<DoctorSignup />} />
             <Route path="/doctordashboard" element={<DoctorDashboard />} />
             <Route path="/prescriptionform/:appointmentId" element={<PrescriptionForm />} />

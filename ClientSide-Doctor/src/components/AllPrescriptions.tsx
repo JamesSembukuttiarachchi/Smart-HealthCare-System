@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../context/AuthContext";
 import axios from 'axios';
+import { IoIosArrowBack } from "react-icons/io";
+import { FaFilePen } from 'react-icons/fa6';
+import { MdDelete } from "react-icons/md";
+
 
 interface Prescription {
     _id: string;
@@ -29,19 +33,17 @@ const AllPrescriptions: React.FC = () => {
             }
         };
 
-
         fetchPrescription();
 
     }, []);
-    const handlePrescriptionClick = () => {
-        navigate('/prescription');
+
+    const handlePrescriptionClick = (prescriptionId: string) => {
+        navigate(`/prescription/${prescriptionId}`);
     };
 
     const handleBackButtonClick = () => {
         navigate('/doctordashboard');
     };
-
-
 
     return (
         <div className="bg-[#84D3E9] min-h-screen flex justify-center p-8">
@@ -52,7 +54,9 @@ const AllPrescriptions: React.FC = () => {
                         <button className="bg-green-600 text-white p-2 rounded-md w-full hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
                             onClick={handleBackButtonClick}
                         >
-                            Back
+                            <div className="flex flex-row items-center justify-between gap-2">
+                                <IoIosArrowBack className="text-2xl" /> Back
+                            </div>
                         </button>
                     </div>
                     <h2 className="text-2xl font-bold text-gray-800">List of Prescriptions</h2>
@@ -63,13 +67,8 @@ const AllPrescriptions: React.FC = () => {
                             className="border rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 w-72 bg-gray-100"
                         />
                         <div className="flex items-center space-x-3">
-
-                            <img
-                                src="https://via.placeholder.com/30"
-                                alt="User Avatar"
-                                className="w-8 h-8 rounded-full border-2 border-gray-200"
-                            />
-                            <span className="text-purple-600">Dr. {user.name}!</span>                        </div>
+                            <span className="text-purple-600">Dr. {user.name}</span>
+                        </div>
                     </div>
                 </div>
 
@@ -92,20 +91,23 @@ const AllPrescriptions: React.FC = () => {
                                     <td className="py-4 px-6 text-left">{prescription.medicationDetails}</td>
                                     <td className="py-4 px-6 text-center">
                                         <button
-                                            className="bg-purple-600 text-white p-3 rounded-md w-full hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
-                                            onClick={handlePrescriptionClick}
+                                            className="bg-purple-600 text-white p-2 rounded-md w-full hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
+                                            onClick={() => handlePrescriptionClick(prescription._id)}
                                         >
-                                            View
+                                            <div className="flex items-center">
+                                                <FaFilePen className="text-xl" />View
+                                            </div>
                                         </button>
                                     </td>
                                     <td className="py-4 px-6 text-center">
                                         <button
-                                            className="bg-red-600 text-white p-3 rounded-md w-full hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600"
+                                            className="bg-red-600 text-white p-2 rounded-md w-full hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600"
                                         >
-                                            Delete
+                                            <div className="flex items-center">
+                                                <MdDelete className="text-xl" />Delete
+                                            </div>
                                         </button>
                                     </td>
-
                                 </tr>
                             ))}
                         </tbody>

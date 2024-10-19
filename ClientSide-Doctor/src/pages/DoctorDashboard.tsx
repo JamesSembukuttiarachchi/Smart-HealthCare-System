@@ -5,6 +5,8 @@ import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { FaFilePen } from "react-icons/fa6";
 import { CiLogout } from "react-icons/ci";
+import { IoMdAdd } from "react-icons/io";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 // Define types for Appointment
 interface Appointment {
@@ -167,7 +169,7 @@ const DoctorDashboard: React.FC = () => {
                     onClick={handleLogout}
                 >
                     <div className="flex flex-row items-center justify-between gap-2">
-                        <CiLogout /> Logout
+                        <CiLogout className="text-xl" /> Logout
                     </div>
                 </button>
             </header>
@@ -209,7 +211,7 @@ const DoctorDashboard: React.FC = () => {
                                 onClick={handlePrescriptionHistoryClick}
                             >
                                 <div className="flex flex-row items-center justify-between gap-2">
-                                    <FaFilePen /> All Prescriptions
+                                    <FaFilePen className="text-xl" /> All Prescriptions
                                 </div>
                             </button>
                         </div>
@@ -238,7 +240,7 @@ const DoctorDashboard: React.FC = () => {
                                         <button className="bg-purple-600 text-white p-2 rounded-md w-full hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
                                             onClick={() => handleNewPrescriptionClick(appointment._id)}>
                                             <div className="flex flex-row items-center justify-between gap-2">
-                                                <FaFilePen /> Prescription
+                                                <FaFilePen className="text-xl" /> Prescription
                                             </div>
                                         </button>
                                     </span>
@@ -278,7 +280,10 @@ const DoctorDashboard: React.FC = () => {
                                 className="bg-blue-500 text-white py-2 px-4 rounded-md mt-4 ml-2"
                                 onClick={handleAddHospital}
                             >
-                                Add
+                                <div className="flex items-center"
+                                >
+                                    <IoMdAdd className="text-xl" />Add
+                                </div>
                             </button>
                         </div>
                         <div className="ml-12 text-left">
@@ -303,8 +308,9 @@ const DoctorDashboard: React.FC = () => {
                             <button
                                 onClick={handlePrevMonth}
                                 className="text-gray-600 hover:text-gray-800"
+                                aria-label="Previous Month"
                             >
-                                &lt; Prev
+                                <IoIosArrowBack className="text-2xl" />
                             </button>
                             <h3 className="text-xl font-semibold text-gray-800">
                                 {currentDate.format("MMMM YYYY")}
@@ -312,8 +318,9 @@ const DoctorDashboard: React.FC = () => {
                             <button
                                 onClick={handleNextMonth}
                                 className="text-gray-600 hover:text-gray-800"
+                                aria-label="next Month"
                             >
-                                Next &gt;
+                                <IoIosArrowForward className="text-2xl" />
                             </button>
                         </div>
                         <div className="grid grid-cols-7 gap-2 text-center text-sm text-gray-600">
