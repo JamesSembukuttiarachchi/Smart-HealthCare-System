@@ -7,16 +7,21 @@ export const getAllPayments = async (req: Request, res: Response) => {
   try {
     console.log("Fetching all payments...");
     const payments = await paymentService.getAllPayments();
+    
+    if (!Array.isArray(payments)) {
+      throw new Error("Expected an array of payments");
+    }
+
     console.log("Payments fetched successfully:", payments);
     res.status(200).json(payments);
   } catch (error) {
-    console.error("Error fetching payments:", error);
+    console.error("Error fetching payments:", error instanceof Error ? error.message : error);
     res.status(500).json({
-      message:
-        error instanceof Error ? error.message : "An unknown error occurred",
+      message: error instanceof Error ? error.message : "An unknown error occurred",
     });
   }
 };
+
 
 // Update a payment
 export const updatePayment = async (req: Request, res: Response) => {

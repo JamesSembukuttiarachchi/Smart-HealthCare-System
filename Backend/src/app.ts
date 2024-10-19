@@ -7,6 +7,7 @@ import patientRoutes from "./routes/patientRoutes";
 import hospitalRoutes from "./routes/hospitalRoutes";
 import appointmentRoutes from "./routes/appointmentRoutes";
 import prescriptionRoutes from "./routes/prescriptionRoutes";
+import paymentRoutes from "./routes/paymentRoutes";
 
 const app = express();
 
@@ -25,5 +26,6 @@ app.use("/api", patientRoutes);
 app.use("/api", hospitalRoutes);
 app.use("/api", appointmentRoutes);
 app.use("/api", prescriptionRoutes);
+app.use("/api", paymentRoutes);
 
 export default app;
