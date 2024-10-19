@@ -1,19 +1,50 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { IoIosArrowBack } from "react-icons/io";
+
+// Define types for Appointment
+interface Appointment {
+    _id: string;
+    patientName: string;
+    patientId: { name: string };
+    hospitalId: { name: string; _id: string };
+    appointmentDate: string;
+}
 
 const PrescriptionForm: React.FC = () => {
-    const [patientName, setPatientName] = useState('');
+    const { appointmentId } = useParams<{ appointmentId: string }>();
+    const [appointment, setAppointment] = useState<Appointment>();
     const [medicationDetails, setMedicationDetails] = useState('');
     const [notes, setNotes] = useState('');
     const navigate = useNavigate();
+
+    const handleBackButtonClick = () => {
+        navigate('/doctordashboard');
+    };
+
+    useEffect(() => {
+        const fetchAppointment = async () => {
+            try {
+                const response = await axios.get(
+                    `http://localhost:3000/api/appointments/${appointmentId}`
+                );
+                setAppointment(response.data);
+            } catch (error) {
+                console.error("Error fetching appointments:", error);
+            }
+        };
+
+        fetchAppointment();
+
+    }, [appointmentId]);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         try {
             const response = await axios.post('http://localhost:3000/api/prescriptions', {
-                patientName,
+                appointmentId,
                 medicationDetails,
                 issueDate: new Date(), // Issue date will be the current date
                 notes,
@@ -28,21 +59,34 @@ const PrescriptionForm: React.FC = () => {
 
     return (
         <div className="bg-[#84D3E9] min-h-screen flex flex-col items-center p-4">
-            <div className="bg-white w-full max-w-4xl p-8 rounded-lg shadow-md">
-                <h2 className="text-2xl font-bold mb-6 text-center">Patient's Prescription</h2>
+            <div className="bg-white w-full max-w-4xl p-8 rounded-lg shadow-md ">
+                <div className='flex flex-col items-center'>
+                    <div className="w-full flex justify-between items-center mb-4">
+                        <button
+                            className="bg-green-600 text-white p-2 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
+                            onClick={handleBackButtonClick}
+                        >
+                            <div className="flex flex-row items-center justify-between gap-2">
+                                <IoIosArrowBack className="text-xl" /> Back
+                            </div>
+                        </button>
+                        <h2 className="text-2xl font-bold text-center flex-grow">
+                            {appointment?.patientId.name}'s Prescription
+                        </h2>
+                    </div>
+                </div>
 
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="patientName">
-                            Patient Name
+                            {appointment?.patientId.name}
                         </label>
                         <input
                             id="patientName"
                             type="text"
-                            value={patientName}
-                            onChange={(e) => setPatientName(e.target.value)}
+                            value={appointment?.patientId.name}
                             className="w-full p-3 bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
-                            required
+                            readOnly
                         />
                     </div>
 
@@ -84,13 +128,15 @@ const PrescriptionForm: React.FC = () => {
                             className="w-full p-3 bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
                         />
                     </div>
+                    <div className='flex justify-center items-center gap-32 mb-8'>
 
-                    <button
-                        type="submit"
-                        className="bg-purple-600 text-white p-3 rounded-md w-full hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
-                    >
-                        Save Prescription
-                    </button>
+                        <button
+                            type="submit"
+                            className="bg-purple-600 text-white p-3 rounded-md w-full hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
+                        >
+                            Save Prescription
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>

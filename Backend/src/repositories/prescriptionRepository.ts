@@ -3,12 +3,49 @@ import Prescription from "../models/Prescription";
 
 // Get all prescriptions
 export const getAllPrescriptions = async () => {
-  return await Prescription.find().populate("patientId doctorId");
+  return await Prescription.find().populate({
+    path: "appointmentId",
+    populate: [
+      {
+        path: "patientId", // Populate patient details
+        //select: "name", // Only populate the name of the patient
+      },
+      {
+        path: "hospitalId", // Populate hospital details
+        //select: "name", // Only populate the name of the hospital
+      },
+      {
+        path: "doctorId", // Populate hospital details
+        //select: "name", // Only populate the name of the hospital
+      },
+    ],
+  });
+};
+
+// Fetch a prescription by Id
+export const getPrescriptionById = async (id: string) => {
+  return await Prescription.findById(id).populate({
+    path: "appointmentId",
+    populate: [
+      {
+        path: "patientId", // Populate patient details
+        //select: "name", // Only populate the name of the patient
+      },
+      {
+        path: "hospitalId", // Populate hospital details
+        //select: "name", // Only populate the name of the hospital
+      },
+      {
+        path: "doctorId", // Populate hospital details
+        //select: "name", // Only populate the name of the hospital
+      },
+    ],
+  });
 };
 
 // Create a new prescription
 export const createPrescription = async (prescriptionData: {
-  patientName: string;
+  appointmentId: string;
   medicationDetails: string;
   issueDate: Date;
   notes: string;
@@ -21,7 +58,7 @@ export const createPrescription = async (prescriptionData: {
 export const updatePrescription = async (
   id: string,
   prescriptionData: {
-    patientName?: string;
+    appointmentId?: string;
     medicationDetails?: string;
     issueDate?: Date;
     notes?: string;

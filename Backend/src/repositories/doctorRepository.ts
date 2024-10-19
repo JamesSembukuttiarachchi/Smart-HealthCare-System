@@ -1,10 +1,9 @@
 // doctorRepository.ts
-import mongoose from "mongoose";
 import Doctor from "../models/Doctor";
 
 // Fetch all doctors
 export const getAllDoctors = async () => {
-  return await Doctor.find().populate('availableHospitals', 'name');
+  return await Doctor.find().populate("availableHospitals", "name");
 };
 
 // Find a doctor by email

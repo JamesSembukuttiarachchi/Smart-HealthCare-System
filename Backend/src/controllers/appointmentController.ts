@@ -49,6 +49,24 @@ export const getAppointmentsByDoctor = async (req: Request, res: Response) => {
   }
 };
 
+// Fetch a appointment by id
+export const getAppointmentById = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    console.log(`Fetching appointment with ID: ${id}...`);
+    const appointment = await appointmentService.getAppointmentById(id);
+    console.log("appointment fetched successfully:", appointment);
+    res.status(200).json(appointment);
+  } catch (error) {
+    console.error("Error fetching appointment by Id:", error);
+    if (error instanceof Error) {
+      res.status(404).json({ message: error.message });
+    } else {
+      res.status(500).json({ message: "An unknown error occurred" });
+    }
+  }
+};
+
 // Create a new appointment
 export const createAppointment = async (req: Request, res: Response) => {
   try {

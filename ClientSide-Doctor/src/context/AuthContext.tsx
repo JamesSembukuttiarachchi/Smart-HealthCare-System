@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = async (email: string, password: string) => {
     try {
       const response = await axios.post(
-        "http://192.168.1.3:3000/api/doctors/login",
+        "http://localhost:3000/api/doctors/login",
         {
           email,
           password,
@@ -84,7 +84,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   ) => {
     try {
       const response = await axios.post(
-        "http://192.168.1.3:3000/api/doctors/signup",
+        "http://localhost:3000/api/doctors/signup",
         {
           name,
           email,
