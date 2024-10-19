@@ -36,7 +36,7 @@ const DoctorSignup: React.FC = () => {
             );
             setSuccessMessage('Signup successful! Please Login using your credentials.');
             setFormData({ name: '', email: '', specialization: '', phone: '', password: '' });
-            navigate('/doctorlogin');
+            navigate('/');
         } catch (error) {
             setErrorMessage('Signup failed. Please try again.');
             console.error('Signup failed', error);
@@ -96,24 +96,14 @@ const DoctorSignup: React.FC = () => {
                                 <option value="Gastroenterology">Gastroenterology</option>
                                 <option value="General Practice">General Practice</option>
                                 <option value="Gynecology">Gynecology</option>
-                                <option value="Hematology">Hematology</option>
                                 <option value="Infectious Disease">Infectious Disease</option>
-                                <option value="Nephrology">Nephrology</option>
                                 <option value="Neurology">Neurology</option>
-                                <option value="Oncology">Oncology</option>
                                 <option value="Ophthalmology">Ophthalmology</option>
                                 <option value="Orthopedics">Orthopedics</option>
                                 <option value="Otolaryngology (ENT)">Otolaryngology (ENT)</option>
                                 <option value="Pediatrics">Pediatrics</option>
                                 <option value="Psychiatry">Psychiatry</option>
-                                <option value="Pulmonology">Pulmonology</option>
-                                <option value="Radiology">Radiology</option>
                                 <option value="Rheumatology">Rheumatology</option>
-                                <option value="Surgery">Surgery</option>
-                                <option value="Urology">Urology</option>
-                                <option value="Anesthesiology">Anesthesiology</option>
-                                <option value="Pathology">Pathology</option>
-                                <option value="Physical Medicine and Rehabilitation">Physical Medicine and Rehabilitation</option>
                             </select>
                         </div>
 
