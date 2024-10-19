@@ -11,6 +11,7 @@ import {
 export const createPaymentForAppointment = async (paymentData: {
   appointmentId: mongoose.Schema.Types.ObjectId;
   amount: number;
+  status: string;
 }) => {
   try {
     const savedPayment = await createPaymentInRepo(paymentData);

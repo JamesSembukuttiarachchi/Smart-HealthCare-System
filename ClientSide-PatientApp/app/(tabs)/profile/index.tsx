@@ -13,7 +13,7 @@ const ProfileSettings = () => {
           className="w-24 h-24 rounded-full border-4 border-white mt-4"
         />
         <TouchableOpacity
-          className="bg-orange-500 px-6 py-2 rounded-full mt-4"
+          className="bg-blue-500 px-6 py-2 rounded-full mt-4"
           onPress={() => router.push("/(tabs)/profile/update")}
         >
           <Text className="text-white text-lg font-bold">Edit Profile</Text>
