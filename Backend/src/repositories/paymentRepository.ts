@@ -11,13 +11,30 @@ export const createPaymentForAppointment = async (paymentData: {
   const payment = new Payment({
     ...paymentData,
     paymentDate: new Date(),
+
   });
   return await payment.save();
 };
 
 // Get all payments
 export const getAllPayments = async () => {
-  return await Payment.find().populate("appointmentId");
+  return await Payment.find().populate({
+    path: "appointmentId",
+    populate: [
+      {
+        path: "patientId", // Populate patient details
+        //select: "name", // Only populate the name of the patient
+      },
+      {
+        path: "hospitalId", // Populate hospital details
+        //select: "name", // Only populate the name of the hospital
+      },
+      {
+        path: "doctorId", // Populate hospital details
+        //select: "name", // Only populate the name of the hospital
+      },
+    ],
+  });
 };
 
 
