@@ -80,13 +80,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       );
 
       const token = response.data.token; // Assuming your backend responds with { token: "JWT_token_here" }
-      const patient = response.data.patient;
+      const patient = response.data.newPatient;
       if (token) {
         await SecureStore.setItemAsync("token", token);
         await SecureStore.setItemAsync('user', JSON.stringify(patient));
         setToken(token);
         setUser(patient);
-        router.replace("../(tabs)/home/home"); // Redirect to the home page
+        router.replace("../(tabs)/home/homeScreen"); // Redirect to the home page
       }
     } catch (error) {
       console.error("Signup error:", error);

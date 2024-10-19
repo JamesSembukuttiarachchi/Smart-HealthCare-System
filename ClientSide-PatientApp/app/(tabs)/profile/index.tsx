@@ -1,8 +1,14 @@
 import { View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
 import { Link, useRouter } from "expo-router";
+import { useAuth } from "@/app/context/AuthContext";
 
 const ProfileSettings = () => {
+  const {logout} = useAuth();
   const router = useRouter();
+
+  const handleLogout = () => {
+    logout();
+  }
   return (
     <View className="flex-1 bg-white">
       {/* Header */}
@@ -58,6 +64,9 @@ const ProfileSettings = () => {
           </TouchableOpacity>
           <TouchableOpacity className="py-2 flex flex-row items-center">
             <Text className="text-lg mr-2">📶 Only Download via Wifi</Text>
+          </TouchableOpacity>
+          <TouchableOpacity className="py-2 flex flex-row items-center" onPress={handleLogout}>
+            <Text className="text-lg mr-2">Logout</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

@@ -46,12 +46,22 @@ const PaymentScreen = () => {
   // Calculate the doctor fee based on specialization
   const getMultiplierBySpecialization = (specialization: string) => {
     switch (specialization.toLowerCase()) {
-      case "eye":
+      case "ophthalmology":
         return 0.8;
-      case "neurologist":
+      case "cardiology":
         return 0.85;
-      case "pediatrician":
+      case "otolaryngology (ENT)":
         return 0.75;
+      case "gynecology":
+        return 0.8;
+      case "dermatology":
+        return 0.8;
+      case "endocrinology":
+        return 0.75;
+      case "gastroenterology":
+        return 0.8;
+      case "general Practice":
+        return 0.7;
       default:
         return 3.0; // Default multiplier if no specific specialization is matched
     }
@@ -89,23 +99,23 @@ const PaymentScreen = () => {
     <ScrollView className="flex-1  bg-white">
       <View className="bg-gray-100 p-4 rounded-lg shadow-md">
         <Text className="text-3xl font-bold text-center mb-4">
-          Payments {appointmentId}
+          Payments Summary
         </Text>
 
         {appointment ? (
           <View className="mb-4">
             <View className="flex-row justify-between">
               <Text className="font-bold text-lg">
-                Doctor ID: {appointment.doctorId.name}
+                Doctor Fee
               </Text>
               <Text className="font-bold text-lg">{doctorFee}</Text>
             </View>
             <View className="flex-row justify-between">
-              <Text className="font-bold text-lg">Booking Payment</Text>
+              <Text className="font-bold text-lg">Booking Fee</Text>
               <Text className="font-bold text-lg">{bookingFee}</Text>
             </View>
             <View className="flex-row justify-between">
-              <Text className="font-bold text-lg">Hospital Charge</Text>
+              <Text className="font-bold text-lg">Hospital Fee</Text>
               <Text className="font-bold text-lg">{hospitalCharge}</Text>
             </View>
             <View className="border-t mt-2 pt-2 flex-row justify-between">
