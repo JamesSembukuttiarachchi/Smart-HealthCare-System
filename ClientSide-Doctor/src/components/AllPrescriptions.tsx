@@ -7,7 +7,7 @@ import { FaFilePen } from 'react-icons/fa6';
 
 interface Prescription {
     _id: string;
-    appointmentId: { patientId: { name: string }, hospitalId: string, doctorId: string };
+    appointmentId: { patientId: { name: string }, hospitalId: string, doctorId: { _id: string } };
     medicationDetails: string;
     appointmentDate: string;
 }
@@ -82,7 +82,7 @@ const AllPrescriptions: React.FC = () => {
                         </thead>
                         <tbody className="text-gray-800 text-sm">
                             {prescriptions
-                                .filter(prescription => prescription?.appointmentId?.doctorId === user.id) // Filter prescriptions for the logged-in doctor
+                                .filter(prescription => prescription?.appointmentId?.doctorId?._id === user._id) // Filter prescriptions for the logged-in doctor
                                 .map((prescription, index) => (
                                     <tr key={index} className="border-b border-gray-200 hover:bg-gray-50 transition">
                                         <td className="py-3 px-6 text-left font-bold">{prescription?.appointmentId?.patientId?.name}</td>

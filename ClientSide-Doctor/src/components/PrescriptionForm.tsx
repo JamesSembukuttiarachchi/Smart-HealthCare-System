@@ -51,7 +51,7 @@ const PrescriptionForm: React.FC = () => {
             });
 
             console.log('Prescription saved successfully:', response.data);
-            navigate('/'); // Navigate to the home page on successful submission
+            navigate('/doctordashboard'); // Navigate to the home page on successful submission
         } catch (error) {
             console.error('Error saving prescription:', error);
         }

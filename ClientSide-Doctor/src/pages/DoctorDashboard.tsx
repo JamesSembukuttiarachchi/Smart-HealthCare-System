@@ -14,6 +14,7 @@ interface Appointment {
     patientId: { name: string; _id: string };
     hospitalId: { name: string; _id: string };
     appointmentDate: string;
+    appointmentTime: string;
 }
 
 interface Hospital {
@@ -228,7 +229,9 @@ const DoctorDashboard: React.FC = () => {
                                         <td className="text-sm text-gray-500 py-2">
                                             {new Date(appointment.appointmentDate).toISOString().split('T')[0]}
                                         </td>
-
+                                        <td className="text-sm text-gray-500 py-2">
+                                            {appointment.appointmentTime}
+                                        </td>
                                         <td className="py-2 text-right">
                                             <button
                                                 className="bg-purple-600 text-white p-2 rounded-md w-35 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
