@@ -4,12 +4,10 @@ import { useAuth } from "../context/AuthContext";
 import axios from 'axios';
 import { IoIosArrowBack } from "react-icons/io";
 import { FaFilePen } from 'react-icons/fa6';
-//import { MdDelete } from "react-icons/md";
-
 
 interface Prescription {
     _id: string;
-    appointmentId: { patientId: { name: string }, hospitalId: string };
+    appointmentId: { patientId: { name: string }, hospitalId: string, doctorId: string };
     medicationDetails: string;
     appointmentDate: string;
 }
@@ -80,35 +78,27 @@ const AllPrescriptions: React.FC = () => {
                                 <th className="py-3 px-6 text-left font-bold">Patient Name</th>
                                 <th className="py-3 px-6 text-left font-bold">Medications</th>
                                 <th className="py-3 px-6 text-left font-semibold"></th>
-                                {/* <th className="py-3 px-6 text-left font-semibold"></th> */}
                             </tr>
                         </thead>
                         <tbody className="text-gray-800 text-sm">
-                            {prescriptions.map((prescription, index) => (
-                                <tr key={index} className="border-b border-gray-200 hover:bg-gray-50 transition">
-                                    <td className="py-3 px-6 text-left font-bold">{prescription?.appointmentId?.patientId?.name}</td>
-                                    <td className="py-3 px-6 text-left">{prescription.medicationDetails}</td>
-                                    <td className="py-3 px-6 text-right">
-                                        <button
-                                            className="bg-purple-600 text-white p-2 rounded-md w-30 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
-                                            onClick={() => handlePrescriptionClick(prescription._id)}
-                                        >
-                                            <div className="flex items-center">
-                                                <FaFilePen className="text-xl" />View
-                                            </div>
-                                        </button>
-                                    </td>
-                                    {/* <td className="py-3 px-6 text-center">
-                                        <button
-                                            className="bg-red-600 text-white p-2 rounded-md w-full hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600"
-                                        >
-                                            <div className="flex items-center">
-                                                <MdDelete className="text-xl" />Delete
-                                            </div>
-                                        </button>
-                                    </td> */}
-                                </tr>
-                            ))}
+                            {prescriptions
+                                .filter(prescription => prescription?.appointmentId?.doctorId === user.id) // Filter prescriptions for the logged-in doctor
+                                .map((prescription, index) => (
+                                    <tr key={index} className="border-b border-gray-200 hover:bg-gray-50 transition">
+                                        <td className="py-3 px-6 text-left font-bold">{prescription?.appointmentId?.patientId?.name}</td>
+                                        <td className="py-3 px-6 text-left">{prescription.medicationDetails}</td>
+                                        <td className="py-3 px-6 text-right">
+                                            <button
+                                                className="bg-purple-600 text-white p-2 rounded-md w-30 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
+                                                onClick={() => handlePrescriptionClick(prescription._id)}
+                                            >
+                                                <div className="flex items-center">
+                                                    <FaFilePen className="text-xl" />View
+                                                </div>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
                         </tbody>
                     </table>
                 </div>

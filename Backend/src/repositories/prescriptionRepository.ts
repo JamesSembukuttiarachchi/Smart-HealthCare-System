@@ -14,6 +14,10 @@ export const getAllPrescriptions = async () => {
         path: "hospitalId", // Populate hospital details
         //select: "name", // Only populate the name of the hospital
       },
+      {
+        path: "doctorId", // Populate hospital details
+        //select: "name", // Only populate the name of the hospital
+      },
     ],
   });
 };
@@ -29,6 +33,10 @@ export const getPrescriptionById = async (id: string) => {
       },
       {
         path: "hospitalId", // Populate hospital details
+        //select: "name", // Only populate the name of the hospital
+      },
+      {
+        path: "doctorId", // Populate hospital details
         //select: "name", // Only populate the name of the hospital
       },
     ],
