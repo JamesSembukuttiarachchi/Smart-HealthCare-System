@@ -6,6 +6,7 @@ import { useRouter } from "expo-router";
 interface Payment {
   appointmentId: string;
   amount: number;
+  status: string;
 }
 
 interface PaymentContextType {

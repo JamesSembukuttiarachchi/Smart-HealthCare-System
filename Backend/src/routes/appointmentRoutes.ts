@@ -2,11 +2,11 @@
 import express from "express";
 import {
   getAllAppointments,
+  getAppointmentById,
   createAppointment,
   updateAppointment,
   deleteAppointment,
   getAppointmentsByDoctor,
-  getAppointmentById,
 } from "../controllers/appointmentController";
 
 const router = express.Router();

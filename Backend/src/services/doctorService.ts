@@ -9,7 +9,6 @@ import {
 } from "../repositories/doctorRepository";
 import jwt from "jsonwebtoken";
 import { SECRET_KEY } from "../config";
-import mongoose from "mongoose";
 
 //signup doctor
 export const signupDoctor = async (doctorData: {

@@ -6,11 +6,11 @@ import Payment from "../models/Payment";
 export const createPaymentForAppointment = async (paymentData: {
   appointmentId: mongoose.Schema.Types.ObjectId;
   amount: number;
+  status: string;
 }) => {
   const payment = new Payment({
     ...paymentData,
     paymentDate: new Date(),
-    status: "Completed",
   });
   return await payment.save();
 };

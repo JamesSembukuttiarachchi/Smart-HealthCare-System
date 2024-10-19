@@ -61,6 +61,7 @@ const PaymentScreen = () => {
     const paymentData = {
       appointmentId: appointmentId as string,
       amount: appointment.hospitalId.channellingFee as number,
+      status: selectedMethod === "Card" ? "Completed" : "Pending",
     };
     processPayment(paymentData);
   };
@@ -141,28 +142,33 @@ const PaymentScreen = () => {
           ))}
         </View>
 
-        <TextInput
-          placeholder="Name on Card"
-          className="border rounded-lg p-2 mb-2"
-        />
-        <TextInput
-          placeholder="Card Number"
-          className="border rounded-lg p-2 mb-2"
-          keyboardType="numeric"
-        />
-        <View className="flex-row justify-between mb-2">
-          <TextInput
-            placeholder="MM/YY"
-            className="border rounded-lg p-2 flex-1 mr-2"
-            keyboardType="numeric"
-          />
-          <TextInput
-            placeholder="CVV"
-            className="border rounded-lg p-2 flex-1"
-            keyboardType="numeric"
-            secureTextEntry
-          />
-        </View>
+        {/* Render these inputs only if "Card" is selected */}
+        {selectedMethod === "Card" && (
+          <>
+            <TextInput
+              placeholder="Name on Card"
+              className="border rounded-lg p-2 mb-2"
+            />
+            <TextInput
+              placeholder="Card Number"
+              className="border rounded-lg p-2 mb-2"
+              keyboardType="numeric"
+            />
+            <View className="flex-row justify-between mb-2">
+              <TextInput
+                placeholder="MM/YY"
+                className="border rounded-lg p-2 flex-1 mr-2"
+                keyboardType="numeric"
+              />
+              <TextInput
+                placeholder="CVV"
+                className="border rounded-lg p-2 flex-1"
+                keyboardType="numeric"
+                secureTextEntry
+              />
+            </View>
+          </>
+        )}
 
         <CustomButton title={"Pay"} onPress={handlePayment} />
       </View>

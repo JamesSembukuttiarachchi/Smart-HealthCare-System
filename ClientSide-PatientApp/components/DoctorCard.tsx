@@ -12,7 +12,7 @@ const DoctorCard: React.FC<DoctorCardProps> = ({ name, specialty, rating }) => {
     <View className="bg-blue-100 rounded-xl p-4 m-2 w-64">
       <View className="flex-row items-center">
         <Image
-          source={{ uri: 'https://placekitten.com/80/80' }} // Placeholder for doctor image
+          source={{ uri: 'https://img.freepik.com/free-photo/pleased-young-female-doctor-wearing-medical-robe-stethoscope-around-neck-standing-with-closed-posture_409827-254.jpg?semt=ais_hybrid' }} // Placeholder for doctor image
           className="w-16 h-16 rounded-full"
         />
         <View className="ml-4">
