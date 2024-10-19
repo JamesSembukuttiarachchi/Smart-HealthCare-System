@@ -12,11 +12,16 @@ import { Picker } from "@react-native-picker/picker"; // Picker for selecting mo
 import moment from "moment"; // Moment.js for handling dates
 import { useDoctors } from "@/app/context/DoctorContext";
 import CustomButton from "@/components/CustomButton";
+import { useAuth } from "@/app/context/AuthContext";
+import { useAppointments } from "@/app/context/AppointmentContext";
+import axios from "axios";
 //import { useAuth } from '../hooks/useAuth'; // Assuming you have a custom hook for fetching user
 
 const AppointmentScreen: React.FC = () => {
-    const {doctorId} = useLocalSearchParams();
-    const {doctors} = useDoctors();
+  const { user } = useAuth();
+  const { doctorId } = useLocalSearchParams();
+  const { createAppointment } = useAppointments();
+  const { doctors } = useDoctors();
   const [selectedDate, setSelectedDate] = useState<string>(
     moment().format("DD")
   ); // Start with current day
@@ -31,11 +36,28 @@ const AppointmentScreen: React.FC = () => {
   const [age, setAge] = useState<string>("");
   const [gender, setGender] = useState<string>("Male");
   const [problem, setProblem] = useState<string>("");
+  const [selectedHospital, setSelectedHospital] = useState<string>(""); // State to store the selected hospital
+  const [appointments, setAppointments] = useState<any[]>([]); // Store fetched appointments
 
-  const selectedDoctor = doctors.find((doctor) => String(doctor._id) === String(doctorId));
+  const selectedDoctor = doctors.find(
+    (doctor) => String(doctor._id) === String(doctorId)
+  );
 
   //const  user  = auth.currentUser; // Custom hook to get the current user
   const router = useRouter();
+
+  // Handle appointment creation
+  const handleSetAppointment = async () => {
+    const appointmentData = {
+      patientId: user._id, // Patient ID from auth context
+      doctorId: doctorId as string,
+      hospitalId: selectedHospital,
+      appointmentDate: `${selectedYear}-${selectedMonth}-${selectedDate}`,
+      appointmentTime: selectedTime as string,
+    };
+
+    await createAppointment(appointmentData); // Use context to create appointment
+  };
 
   // Calculate the days of the selected month, starting from the current day
   const [daysInMonth, setDaysInMonth] = useState<number[]>([]);
@@ -46,10 +68,35 @@ const AppointmentScreen: React.FC = () => {
       { length: currentDate.daysInMonth() },
       (_, i) => i + 1
     );
+
+    // Fetch appointments for the selected doctor
+    const fetchAppointments = async () => {
+      try {
+        const response = await axios.get(
+          `http://192.168.1.2:3000/api/appointments/doctor/${doctorId}`,
+
+        );
+        setAppointments(response.data);
+      } catch (error) {
+        console.error("Error fetching appointments", error);
+      }
+    };
+
+    fetchAppointments();
     setDaysInMonth(days);
-  }, [selectedMonth, selectedYear]);
+  }, [selectedMonth, selectedYear, doctorId]);
 
-
+  // Helper function to filter appointments by selected date
+  const isTimeSlotBooked = (time: string) => {
+    const selectedFullDate = moment(
+      `${selectedYear}-${selectedMonth}-${selectedDate}`
+    ).format("YYYY-MM-DD");
+    return appointments.some(
+      (appointment) =>
+        moment(appointment.appointmentDate).format("YYYY-MM-DD") ===
+          selectedFullDate && appointment.appointmentTime === time
+    );
+  };
 
   return (
     <ScrollView className="flex-1 px-4 py-6 bg-white">
@@ -104,7 +151,7 @@ const AppointmentScreen: React.FC = () => {
           <TouchableOpacity
             key={day}
             className={`px-4 py-2 ${
-              selectedDate === String(day) ? "bg-orange-400" : "bg-gray-200"
+              selectedDate === String(day) ? "bg-blue-400" : "bg-gray-200"
             } rounded mx-2`}
             onPress={() => setSelectedDate(String(day))}
           >
@@ -125,16 +172,17 @@ const AppointmentScreen: React.FC = () => {
           "11:30 AM",
           "12:00 PM",
           "12:30 PM",
-          "01:00 PM",
-          "01:30 PM",
-          "02:00 PM",
-          "02:30 PM",
+          "03:00 PM",
+          "03:30 PM",
+          "04:00 PM",
+          "04:30 PM",
         ].map((time) => (
           <TouchableOpacity
             key={time}
             className={`px-3 py-2 mb-2 ${
-              selectedTime === time ? "bg-orange-400" : "bg-gray-200"
+              isTimeSlotBooked(time) ? "bg-gray-700" : "bg-gray-200"
             } rounded-lg`}
+            disabled={isTimeSlotBooked(time)} // Disable if the slot is booked
             onPress={() => setSelectedTime(time)}
           >
             <Text>{time}</Text>
@@ -142,8 +190,26 @@ const AppointmentScreen: React.FC = () => {
         ))}
       </View>
 
-      {/* Patient Details */}
-      <Text className="text-md mb-2">Patient Details</Text>
+      {/* Hospital Dropdown */}
+      <Text className="font-semibold mb-2">Select Hospital</Text>
+      <View className="border border-gray-300 rounded  mb-4">
+        <Picker
+          selectedValue={selectedHospital}
+          onValueChange={(itemValue) => setSelectedHospital(itemValue)}
+        >
+          {selectedDoctor?.availableHospitals.length > 0 ? (
+            selectedDoctor.availableHospitals.map((hospital) => (
+              <Picker.Item
+                key={hospital._id}
+                label={hospital.name}
+                value={hospital._id}
+              />
+            ))
+          ) : (
+            <Picker.Item label="No hospitals available" value="" />
+          )}
+        </Picker>
+      </View>
 
       <TextInput
         className="border border-gray-300 rounded px-4 py-2 mb-4"
@@ -160,26 +226,6 @@ const AppointmentScreen: React.FC = () => {
         onChangeText={setAge}
       />
 
-      {/* Gender Selection */}
-      <View className="flex-row justify-around mb-4">
-        <TouchableOpacity
-          className={`px-6 py-2 ${
-            gender === "Male" ? "bg-orange-400" : "bg-gray-200"
-          } rounded`}
-          onPress={() => setGender("Male")}
-        >
-          <Text>Male</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          className={`px-6 py-2 ${
-            gender === "Female" ? "bg-orange-400" : "bg-gray-200"
-          } rounded`}
-          onPress={() => setGender("Female")}
-        >
-          <Text>Female</Text>
-        </TouchableOpacity>
-      </View>
-
       <TextInput
         className="border border-gray-300 rounded px-4 py-2 mb-4"
         placeholder="Write your problem"
@@ -190,10 +236,7 @@ const AppointmentScreen: React.FC = () => {
       />
 
       {/* Set Appointment Button */}
-      <CustomButton
-        title="Set Appointment"
-        onPress={()=> router.push("/")}
-      />
+      <CustomButton title="Set Appointment" onPress={handleSetAppointment} />
     </ScrollView>
   );
 };

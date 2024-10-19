@@ -1,25 +1,25 @@
 // paymentRepository.ts
+import mongoose from "mongoose";
 import Payment from "../models/Payment";
 
 // Create a payment for a booked appointment
 export const createPaymentForAppointment = async (paymentData: {
-  appointmentId: string;
-  patientId: string;
-  hospitalId: string;
+  appointmentId: mongoose.Schema.Types.ObjectId;
   amount: number;
 }) => {
   const payment = new Payment({
     ...paymentData,
     paymentDate: new Date(),
-    status: "Pending",
+    status: "Completed",
   });
   return await payment.save();
 };
 
 // Get all payments
 export const getAllPayments = async () => {
-  return await Payment.find().populate("appointmentId patientId hospitalId");
+  return await Payment.find().populate("appointmentId");
 };
+
 
 // Update a payment
 export const updatePayment = async (
