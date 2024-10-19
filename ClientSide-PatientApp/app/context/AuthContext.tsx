@@ -103,8 +103,38 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     router.replace("../auth/login"); // Redirect to login after logging out
   };
 
+  const updateProfile = async (updatedData: any) => {
+    try {
+      // Check if user exists and has pid
+      if (!user || !user.pid) {
+        throw new Error("User not logged in or user ID missing.");
+      }
+
+      const response = await axios.put(
+        `http://192.168.1.2:3000/api/patients/${user.pid}`,
+        updatedData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const updatedUser = response.data.patient;
+
+      // Update the user in the context and SecureStore
+      setUser(updatedUser);
+      await SecureStore.setItemAsync("user", JSON.stringify(updatedUser));
+
+    } catch (error) {
+      console.error("Update profile error:", error);
+      throw new Error("Profile update failed");
+    }
+  };
+
+
   return (
-    <AuthContext.Provider value={{ token, user, login, signup, logout, loading }}>
+    <AuthContext.Provider value={{ token, user, login, signup, logout, updateProfile, loading }}>
       {!loading && children}
     </AuthContext.Provider>
   );

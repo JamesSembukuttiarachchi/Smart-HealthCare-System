@@ -6,7 +6,7 @@ import { useRouter } from "expo-router";
 // Appointment type definition
 interface Appointment {
     _id?: string; // Include _id to represent the ID from the backend
-  patientId: string;
+  patientId: {_id: string};
   doctorId: string;
   hospitalId: string;
   appointmentDate: string;
@@ -17,6 +17,7 @@ interface AppointmentContextType {
   appointments: Appointment[];
   createAppointment: (appointment: Appointment) => Promise<void>;
   getAppointmentById: (appointmentId: string) => Promise<Appointment | null>;
+  getAppointmentsForUser: (userId: string) => Promise<void>;
 }
 
 const AppointmentContext = createContext<AppointmentContextType | undefined>(
@@ -80,8 +81,39 @@ export const AppointmentProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const getAppointmentsForUser = async (userId: string) => {
+    try {
+      const response = await axios.get(
+        "http://192.168.1.2:3000/api/appointments"
+      );
+
+      if (response.status === 200) {
+
+
+        // Filter appointments safely, ensuring patientId and _id exist
+        const userAppointments = response.data.filter((appointment: Appointment) => {
+          return appointment.patientId && appointment.patientId._id === userId;
+        });
+
+        //console.log("Filtered appointments for user:", userAppointments);
+
+        setAppointments(userAppointments);
+      } else {
+        Alert.alert(
+          "Error",
+          response.data.message || "Failed to fetch appointments."
+        );
+      }
+    } catch (error) {
+      console.error("Error fetching appointments:", error);
+      Alert.alert("Error", "Something went wrong while fetching appointments.");
+    }
+  };
+
+
+
   return (
-    <AppointmentContext.Provider value={{ appointments, createAppointment, getAppointmentById }}>
+    <AppointmentContext.Provider value={{ appointments, createAppointment, getAppointmentById, getAppointmentsForUser }}>
       {children}
     </AppointmentContext.Provider>
   );
