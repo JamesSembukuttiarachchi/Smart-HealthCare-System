@@ -10,7 +10,7 @@ const TabsLayout = () => {
 
   return (
     <Tabs
-      screenOptions={{ headerShown: false, tabBarActiveTintColor: "#FFA500" }}
+      screenOptions={{ headerShown: false, tabBarActiveTintColor: "#049BD7" }}
     >
       <Tabs.Screen
         name="home"
@@ -26,7 +26,7 @@ const TabsLayout = () => {
         options={{
           tabBarLabel: "Appointments",
           tabBarIcon: ({ color }) => (
-            <Feather name="home" size={24} color={color} />
+            <Feather name="calendar" size={24} color={color} />
           ),
         }}
       />
@@ -36,6 +36,15 @@ const TabsLayout = () => {
           tabBarLabel: "Profile",
           tabBarIcon: ({ color }) => (
             <Feather name="user" size={24} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="qr"
+        options={{
+          tabBarLabel: "QR",
+          tabBarIcon: ({ color }) => (
+            <Feather name="code" size={24} color={color} />
           ),
         }}
       />
