@@ -21,7 +21,7 @@ const App: React.FC = () => {
             <Route path="/allprescriptions" element={<AllPrescriptions />} />
             {/* Pass the required props to the PrescriptionView component */}
             <Route
-              path="/prescription" element={<PrescriptionView />}
+              path="/prescription/:prescriptionId" element={<PrescriptionView />}
             />
           </Routes>
         </AuthProvider>

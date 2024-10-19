@@ -5,16 +5,34 @@ import Prescription from "../models/Prescription";
 export const getAllPrescriptions = async () => {
   return await Prescription.find().populate({
     path: "appointmentId",
-    populate: {
-      path: "patientId", // This will ensure patient details are also populated
-      //select: "name", // Only populate the name of the patient
-    },
+    populate: [
+      {
+        path: "patientId", // Populate patient details
+        //select: "name", // Only populate the name of the patient
+      },
+      {
+        path: "hospitalId", // Populate hospital details
+        //select: "name", // Only populate the name of the hospital
+      },
+    ],
   });
 };
 
 // Fetch a prescription by Id
 export const getPrescriptionById = async (id: string) => {
-  return await Prescription.findById(id).populate("appointmentId");
+  return await Prescription.findById(id).populate({
+    path: "appointmentId",
+    populate: [
+      {
+        path: "patientId", // Populate patient details
+        //select: "name", // Only populate the name of the patient
+      },
+      {
+        path: "hospitalId", // Populate hospital details
+        //select: "name", // Only populate the name of the hospital
+      },
+    ],
+  });
 };
 
 // Create a new prescription

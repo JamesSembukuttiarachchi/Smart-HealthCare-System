@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import axios from 'axios';
 import { IoIosArrowBack } from "react-icons/io";
 import { FaFilePen } from 'react-icons/fa6';
-import { MdDelete } from "react-icons/md";
+//import { MdDelete } from "react-icons/md";
 
 
 interface Prescription {
@@ -78,20 +78,19 @@ const AllPrescriptions: React.FC = () => {
                         <thead>
                             <tr className="text-gray-900 text-sm leading-normal bg-gray-100">
                                 <th className="py-3 px-6 text-left font-bold">Patient Name</th>
-                                <th className="py-3 px-6 text-left font-bold">No of Prescriptions</th>
                                 <th className="py-3 px-6 text-left font-bold">Medications</th>
-                                <th className="py-3 px-6 text-center font-semibold"></th>
-                                <th className="py-3 px-6 text-center font-semibold"></th>
+                                <th className="py-3 px-6 text-left font-semibold"></th>
+                                {/* <th className="py-3 px-6 text-left font-semibold"></th> */}
                             </tr>
                         </thead>
                         <tbody className="text-gray-800 text-sm">
                             {prescriptions.map((prescription, index) => (
                                 <tr key={index} className="border-b border-gray-200 hover:bg-gray-50 transition">
-                                    <td className="py-4 px-6 text-left font-bold">{prescription?.appointmentId?.patientId?.name}</td>
-                                    <td className="py-4 px-6 text-left">{prescription.medicationDetails}</td>
-                                    <td className="py-4 px-6 text-center">
+                                    <td className="py-3 px-6 text-left font-bold">{prescription?.appointmentId?.patientId?.name}</td>
+                                    <td className="py-3 px-6 text-left">{prescription.medicationDetails}</td>
+                                    <td className="py-3 px-6 text-right">
                                         <button
-                                            className="bg-purple-600 text-white p-2 rounded-md w-full hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
+                                            className="bg-purple-600 text-white p-2 rounded-md w-30 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
                                             onClick={() => handlePrescriptionClick(prescription._id)}
                                         >
                                             <div className="flex items-center">
@@ -99,7 +98,7 @@ const AllPrescriptions: React.FC = () => {
                                             </div>
                                         </button>
                                     </td>
-                                    <td className="py-4 px-6 text-center">
+                                    {/* <td className="py-3 px-6 text-center">
                                         <button
                                             className="bg-red-600 text-white p-2 rounded-md w-full hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600"
                                         >
@@ -107,7 +106,7 @@ const AllPrescriptions: React.FC = () => {
                                                 <MdDelete className="text-xl" />Delete
                                             </div>
                                         </button>
-                                    </td>
+                                    </td> */}
                                 </tr>
                             ))}
                         </tbody>

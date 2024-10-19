@@ -215,38 +215,35 @@ const DoctorDashboard: React.FC = () => {
                                 </div>
                             </button>
                         </div>
-                        <ul className="space-y-3">
-                            {appointments.map((appointment) => (
-                                <li
-                                    key={appointment._id}
-                                    className="flex justify-between items-center py-2 border-b border-gray-200"
-                                >
-                                    <span className="text-black-700 font-semibold text-lg">
-                                        {appointment.patientId.name}
-                                    </span>
-                                    <span className="text-black-700 text-lg">
-                                        {appointment.hospitalId.name}
-                                    </span>
-                                    <span className="text-xs text-gray-500">
-                                        {new Date(appointment.appointmentDate).toLocaleTimeString(
-                                            [],
-                                            {
-                                                hour: "2-digit",
-                                                minute: "2-digit",
-                                            }
-                                        )}
-                                    </span>
-                                    <span>
-                                        <button className="bg-purple-600 text-white p-2 rounded-md w-full hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
-                                            onClick={() => handleNewPrescriptionClick(appointment._id)}>
-                                            <div className="flex flex-row items-center justify-between gap-2">
-                                                <FaFilePen className="text-xl" /> Prescription
-                                            </div>
-                                        </button>
-                                    </span>
-                                </li>
-                            ))}
-                        </ul>
+                        <table className="w-full">
+                            <tbody>
+                                {appointments.map((appointment) => (
+                                    <tr key={appointment._id} className="border-b border-gray-200">
+                                        <td className="text-black-700 font-semibold text-md py-2">
+                                            {appointment.patientId.name}
+                                        </td>
+                                        <td className="text-black-700 text-md py-2">
+                                            {appointment.hospitalId.name}
+                                        </td>
+                                        <td className="text-sm text-gray-500 py-2">
+                                            {new Date(appointment.appointmentDate).toISOString().split('T')[0]}
+                                        </td>
+
+                                        <td className="py-2 text-right">
+                                            <button
+                                                className="bg-purple-600 text-white p-2 rounded-md w-35 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
+                                                onClick={() => handleNewPrescriptionClick(appointment._id)}
+                                            >
+                                                <div className="flex flex-row items-center gap-2">
+                                                    <FaFilePen className="text-xl" /> Prescription
+                                                </div>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+
                     </div>
                 </div>
 
