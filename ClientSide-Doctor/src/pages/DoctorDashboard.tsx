@@ -101,7 +101,7 @@ const DoctorDashboard: React.FC = () => {
     const handleLogout = () => {
         // Assuming your AuthContext has a logout method
         logout();
-        navigate("/doctorlogin"); // Redirect to login page after logout
+        navigate("/"); // Redirect to login page after logout
     };
 
 
