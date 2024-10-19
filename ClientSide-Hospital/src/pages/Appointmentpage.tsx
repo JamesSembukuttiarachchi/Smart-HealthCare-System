@@ -6,10 +6,10 @@ import { useAuth } from "../context/AuthContext";
 
 interface Appointment {
   id: string;
-  patientId: { name: string };
-  doctorId: string;
-  hospitalId: string;
-  status: string;
+  patientId: { name: string } | null;
+  doctorId: {_id:string}| null;
+  hospitalId: {id:string} | null;
+  status: string | null;
 }
 
 const AppointmentPage: React.FC = () => {
@@ -32,7 +32,7 @@ const AppointmentPage: React.FC = () => {
 
             // Now filter the appointments by logged-in hospital ID
             const filtered = fetchedAppointments.filter(
-              appointmen => String(appointmen.hospitalId) === String(user._id)
+              appointment => String(appointment.hospitalId._id) === String(user._id)
             );
 
             console.log("Filtered Appointments:", filtered); // Log to see the filtered appointments
@@ -75,9 +75,9 @@ const AppointmentPage: React.FC = () => {
               filteredAppointments.map((appointment) => (
                 <li key={appointment.id} className="p-4 bg-white rounded-lg shadow-md">
                   <h3 className="text-lg font-semibold text-blue-600">
-                    {appointment.patientId?.name || 'Unknown'}
+                    {appointment.patientId?.name || 'Unknown Patient'}
                   </h3>
-                  <p className="text-gray-700">Status: {appointment.status}</p>
+                  <p className="text-gray-700">Status: {appointment.status || 'No status available'}</p>
                 </li>
               ))
             ) : (
@@ -90,7 +90,7 @@ const AppointmentPage: React.FC = () => {
         <div>
           <h2 className="mb-4 text-xl font-bold text-gray-800">Schedule</h2>
           <Calendar 
-            onChange={setValue} 
+           // onChange={setValue} 
             value={value} 
             className="rounded-lg shadow-lg"
           />
