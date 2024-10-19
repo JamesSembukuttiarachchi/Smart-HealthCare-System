@@ -1,8 +1,20 @@
 import React from "react";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import { Link,useNavigate } from "react-router-dom"; // Import Link from react-router-dom
 import hospitalHeader from "../assets/HospitalHeader2.png";
+import { useAuth } from "../context/AuthContext";
+import { CiLogout } from "react-icons/ci";
+//import { useNavigate } from "react-router-dom";
 
 const HospitalHome: React.FC = () => {
+
+  const navigate = useNavigate();
+  const {logout} = useAuth(); 
+  const handleLogout = () => {
+    // Assuming your AuthContext has a logout method
+    logout();
+    navigate("/hospitalLogin"); // Redirect to login page after logout
+};
+
   return (
     <div className="min-h-screen p-6 bg-gray-100">
       {/* Navbar */}
@@ -18,12 +30,21 @@ const HospitalHome: React.FC = () => {
             <a href="#payments" className="hover:text-gray-200">Payments</a>
           </li>
         </ul>
+        <button
+                    className="px-4 py-2 ml-4 text-white transition bg-red-500 rounded-md hover:bg-red-600"
+                    onClick={handleLogout}
+                >
+                    <div className="flex flex-row items-center justify-between gap-2">
+                        <CiLogout className="text-xl" /> Logout
+                    </div>
+                </button>
       </nav>
+      
 
       <header className="py-8 text-center">
         {/* Image added to the header */}
         <img 
-          src={hospitalHeader} 
+          src={hospitalHeader}
           alt="Hospital" 
           className="w-full max-w-full mx-auto mb-4 rounded-lg shadow-lg"
         />
