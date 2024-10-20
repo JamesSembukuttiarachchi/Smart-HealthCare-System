@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = async (email: string, password: string) => {
     try {
       const response = await axios.post(
-        "http:///192.168.1.2:3000/api/patients/login",
+        "http://172.28.9.237:3000/api/patients/login",
         {
           email,
           password,
@@ -69,7 +69,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   ) => {
     try {
       const response = await axios.post(
-        "http://192.168.1.2:3000/api/patients/signup",
+        "http://172.28.9.237:3000/api/patients/signup",
         {
           name,
           gender,
@@ -111,7 +111,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
 
       const response = await axios.put(
-        `http://192.168.1.2:3000/api/patients/${user.pid}`,
+        `http://172.28.9.237:3000/api/patients/${user.pid}`,
         updatedData,
         {
           headers: {

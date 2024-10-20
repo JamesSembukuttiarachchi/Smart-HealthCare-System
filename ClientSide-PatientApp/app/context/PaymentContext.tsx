@@ -26,7 +26,7 @@ export const PaymentProvider: React.FC<{ children: React.ReactNode }> = ({
     try {
       // Replace with your actual API endpoint for processing payments
       const response = await axios.post(
-        "http://192.168.1.2:3000/api/payments/",
+        "http://172.28.9.237:3000/api/payments/",
         payment
       );
 

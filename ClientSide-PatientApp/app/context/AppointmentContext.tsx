@@ -85,7 +85,7 @@ export const AppointmentProvider = ({ children }: { children: ReactNode }) => {
   const getAppointmentsForUser = async (userId: string) => {
     try {
       const response = await axios.get(
-        "http://192.168.1.2:3000/api/appointments"
+        "http://172.28.9.237:3000/api/appointments"
       );
 
       if (response.status === 200) {

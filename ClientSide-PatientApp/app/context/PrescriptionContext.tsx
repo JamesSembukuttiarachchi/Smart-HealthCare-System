@@ -49,7 +49,7 @@ export const PrescriptionProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
     try {
       // Make an API request with Axios
-      const response = await axios.get('http://192.168.1.2:3000/api/prescriptions'); // Correct the URL
+      const response = await axios.get('http://172.28.9.237:3000/api/prescriptions'); // Correct the URL
 
       // Log the actual response data
       console.log('Fetched Prescriptions:', response.data);
