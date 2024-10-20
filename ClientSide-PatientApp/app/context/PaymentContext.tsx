@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState } from "react";
 import { Alert } from "react-native";
 import axios from "axios";
 import { useRouter } from "expo-router";
+import config from "@/config";
 
 interface Payment {
   appointmentId: string;
@@ -26,7 +27,7 @@ export const PaymentProvider: React.FC<{ children: React.ReactNode }> = ({
     try {
       // Replace with your actual API endpoint for processing payments
       const response = await axios.post(
-        "http://192.168.1.2:3000/api/payments/",
+        `${config.API_URL}/payments/`,
         payment
       );
 

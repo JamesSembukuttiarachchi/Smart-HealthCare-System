@@ -15,7 +15,10 @@ import CustomButton from "@/components/CustomButton";
 import { useAuth } from "@/app/context/AuthContext";
 import { useAppointments } from "@/app/context/AppointmentContext";
 import axios from "axios";
+import config from "@/config";
 //import { useAuth } from '../hooks/useAuth'; // Assuming you have a custom hook for fetching user
+
+
 
 const AppointmentScreen: React.FC = () => {
   const { user } = useAuth();
@@ -73,7 +76,7 @@ const AppointmentScreen: React.FC = () => {
     const fetchAppointments = async () => {
       try {
         const response = await axios.get(
-          `http://192.168.1.2:3000/api/appointments/doctor/${doctorId}`,
+          `${config.API_URL}/appointments/doctor/${doctorId}`,
 
         );
         setAppointments(response.data);

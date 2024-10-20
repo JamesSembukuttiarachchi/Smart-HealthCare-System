@@ -8,6 +8,7 @@ import React, {
 import * as SecureStore from "expo-secure-store";
 import axios from "axios";
 import { useRouter } from "expo-router";
+import config from "@/config";
 
 // Define the AuthContext
 const AuthContext = createContext<any>(null);
@@ -36,7 +37,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = async (email: string, password: string) => {
     try {
       const response = await axios.post(
-        "http:///192.168.1.2:3000/api/patients/login",
+        `${config.API_URL}/patients/login`,
         {
           email,
           password,
@@ -69,7 +70,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   ) => {
     try {
       const response = await axios.post(
-        "http://192.168.1.2:3000/api/patients/signup",
+        `${config.API_URL}/patients/signup`,
         {
           name,
           gender,
@@ -111,7 +112,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
 
       const response = await axios.put(
-        `http://192.168.1.2:3000/api/patients/${user.pid}`,
+        `${config.API_URL}/patients/${user.pid}`,
         updatedData,
         {
           headers: {

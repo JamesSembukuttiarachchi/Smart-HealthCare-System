@@ -2,6 +2,7 @@ import React, { createContext, useState, useContext, ReactNode } from "react";
 import axios from "axios";
 import { Alert } from "react-native";
 import { useRouter } from "expo-router";
+import config from "@/config";
 
 // Appointment type definition
 interface Appointment {
@@ -34,7 +35,7 @@ export const AppointmentProvider = ({ children }: { children: ReactNode }) => {
   const createAppointment = async (appointment: Appointment) => {
     try {
       const response = await axios.post(
-        "http://192.168.1.2:3000/api/appointments",
+        `${config.API_URL}/api/appointments`,
         appointment
       );
 
@@ -63,7 +64,7 @@ export const AppointmentProvider = ({ children }: { children: ReactNode }) => {
   const getAppointmentById = async (appointmentId: string): Promise<Appointment | null> => {
     try {
       const response = await axios.get(
-        `http://192.168.1.2:3000/api/appointments/${appointmentId}`
+        `${config.API_URL}/appointments/${appointmentId}`
       );
 
       if (response.status === 200) {
@@ -85,7 +86,7 @@ export const AppointmentProvider = ({ children }: { children: ReactNode }) => {
   const getAppointmentsForUser = async (userId: string) => {
     try {
       const response = await axios.get(
-        "http://192.168.1.2:3000/api/appointments"
+        `${config.API_URL}/api/appointments`
       );
 
       if (response.status === 200) {

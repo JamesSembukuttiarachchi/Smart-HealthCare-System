@@ -1,12 +1,18 @@
 import React, { createContext, useState, useEffect, useContext, ReactNode } from 'react';
 import axios from 'axios';
+import config from '@/config';
 
 type Doctor = {
   _id: string;
   name: string;
   specialization: string;
-  availableHospitals: string[]; // Array of hospital IDs
+  availableHospitals: Hospital[]; // Array of hospital IDs
 };
+
+type Hospital = {
+    _id: string;
+    name: string;
+}
 
 type DoctorContextType = {
   doctors: Doctor[];
@@ -24,7 +30,7 @@ export const DoctorProvider: React.FC<DoctorProviderProps> = ({ children }) => {
 
   const fetchDoctors = async () => {
     try {
-      const response = await axios.get('http:///192.168.1.2:3000/api/doctors'); // Replace with your actual API
+      const response = await axios.get(`${config.API_URL}/doctors`); // Replace with your actual API
       setDoctors(response.data);
     } catch (error) {
       console.error('Error fetching doctors', error);
