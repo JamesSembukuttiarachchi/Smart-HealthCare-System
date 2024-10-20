@@ -6,6 +6,11 @@ export const getAllPatients = async () => {
   return await Patient.find();
 };
 
+// Fetch a patient by Id
+export const getPatientById = async (id: string) => {
+  return await Patient.findById(id);
+};
+
 // Find a patient by email
 export const findPatientByEmail = async (email: string) => {
   return await Patient.findOne({ email });

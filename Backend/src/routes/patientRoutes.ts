@@ -3,6 +3,7 @@ import {
   signupPatient,
   loginPatient,
   getAllPatients,
+  getPatientById,
   createPatient,
   updatePatient,
   deletePatient,
@@ -17,7 +18,7 @@ router.post("/patients/login", loginPatient);
 
 // Route for fetching all patients
 router.get("/patients", getAllPatients);
-
+router.get("/patients/:id", getPatientById);
 // Route for fetching a single patient by pid
 router.get("/patients/:pid", getPatientByPid); // New route for getting a patient by PID
 

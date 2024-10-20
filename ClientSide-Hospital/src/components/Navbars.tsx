@@ -35,6 +35,11 @@ const Navbars = () => {
               Payments
             </a>
           </li>
+          <li>
+            <a href="/scan" className="hover:text-gray-200">
+              Scan
+            </a>
+          </li>
         </ul>
         <button
           className="px-4 py-2 ml-4 text-white transition bg-red-500 rounded-md hover:bg-red-600"

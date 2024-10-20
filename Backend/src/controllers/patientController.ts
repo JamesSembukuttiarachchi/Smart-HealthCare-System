@@ -48,6 +48,24 @@ export const getAllPatients = async (req: Request, res: Response) => {
   }
 };
 
+// Fetch a patient by id
+export const getPatientById = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    console.log(`Fetching patient with ID: ${id}...`);
+    const patient = await patientService.getPatientById(id);
+    console.log("Doctor fetched successfully:", patient);
+    res.status(200).json(patient);
+  } catch (error) {
+    console.error("Error fetching patient by Id:", error);
+    if (error instanceof Error) {
+      res.status(404).json({ message: error.message });
+    } else {
+      res.status(500).json({ message: "An unknown error occurred" });
+    }
+  }
+};
+
 // Fetch a patient by pid
 export const getPatientByPid = async (req: Request, res: Response) => {
   const { pid } = req.params;

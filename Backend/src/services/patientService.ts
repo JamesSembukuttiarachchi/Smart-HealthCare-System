@@ -2,6 +2,7 @@
 import {
   getAllPatients as getAllPatientsFromRepo,
   findPatientByEmail as findPatientByEmailRepo,
+  getPatientById as getPatientByIdRepo,
   getPatientByPid as getPatientByPidFromRepo,
   createPatient as createPatientInRepo,
   updatePatient as updatePatientInRepo,
@@ -50,6 +51,20 @@ export const getAllPatients = async () => {
   } catch (error) {
     console.error("Error fetching patients in service:", error);
     throw error; // Rethrow the error to be handled in the controller
+  }
+};
+
+// Fetch a patient by Id
+export const getPatientById = async (id: string) => {
+  try {
+    const patient = await getPatientByIdRepo(id);
+    if (!patient) {
+      throw new Error("Patient not found");
+    }
+    return patient;
+  } catch (error) {
+    console.error("Error fetching patient by id in service:", error);
+    throw error;
   }
 };
 

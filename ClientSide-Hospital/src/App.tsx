@@ -6,6 +6,7 @@ import { AuthProvider } from './context/AuthContext';
 import HospitalSignup from './components/HospitalSignup';
 import HospitalLogin from './components/HospitalLogin';
 import PaymentList from './pages/PaymentList';
+import QRCodeScanner from './pages/QRScanner';
 
 
 const App: React.FC = () => {
@@ -21,6 +22,7 @@ const App: React.FC = () => {
           <Route path="/hospitalSignup" element={<HospitalSignup/>} />
           <Route path="/hospitalLogin" element={<HospitalLogin/>} />
           <Route path="/payment-list" element={<PaymentList />} />
+          <Route path="/scan" element={<QRCodeScanner />} />
           
           {/* Pass the required props to the PrescriptionView component */}
          
