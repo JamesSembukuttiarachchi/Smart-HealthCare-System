@@ -6,14 +6,13 @@ import config from "@/config";
 
 // Appointment type definition
 interface Appointment {
-    _id?: string; // Include _id to represent the ID from the backend
-  patientId: {_id: string};
+  _id?: string; // Include _id to represent the ID from the backend
+  patientId: { _id: string };
   doctorId: string;
   hospitalId: string;
   appointmentDate: string;
   appointmentTime: string;
 }
-
 
 interface AppointmentContextType {
   appointments: Appointment[];
@@ -35,7 +34,7 @@ export const AppointmentProvider = ({ children }: { children: ReactNode }) => {
   const createAppointment = async (appointment: Appointment) => {
     try {
       const response = await axios.post(
-        `${config.API_URL}/api/appointments`,
+        "http://192.168.1.2:3000/api/appointments",
         appointment
       );
 
@@ -44,10 +43,9 @@ export const AppointmentProvider = ({ children }: { children: ReactNode }) => {
         Alert.alert("Success", "Appointment created successfully!");
         setAppointments([...appointments, createdAppointment]);
         router.push({
-            pathname: "/home/bookings/payment",
-            params: { appointmentId: createdAppointment._id },
-          }); // Redirect after successful creation
-
+          pathname: "/home/bookings/payment",
+          params: { appointmentId: createdAppointment._id },
+        }); // Redirect after successful creation
       } else {
         Alert.alert(
           "Error",
@@ -61,7 +59,9 @@ export const AppointmentProvider = ({ children }: { children: ReactNode }) => {
   };
 
   // Get appointment by ID function
-  const getAppointmentById = async (appointmentId: string): Promise<Appointment | null> => {
+  const getAppointmentById = async (
+    appointmentId: string
+  ): Promise<Appointment | null> => {
     try {
       const response = await axios.get(
         `${config.API_URL}/appointments/${appointmentId}`
@@ -70,32 +70,32 @@ export const AppointmentProvider = ({ children }: { children: ReactNode }) => {
       if (response.status === 200) {
         return response.data; // Return the fetched appointment object
       } else {
-        Alert.alert(
-          "Error",
-          response.data.message || "Appointment not found."
-        );
+        Alert.alert("Error", response.data.message || "Appointment not found.");
         return null;
       }
     } catch (error) {
       console.error("Error fetching appointment by ID:", error);
-      Alert.alert("Error", "Something went wrong while fetching the appointment.");
+      Alert.alert(
+        "Error",
+        "Something went wrong while fetching the appointment."
+      );
       return null;
     }
   };
 
   const getAppointmentsForUser = async (userId: string) => {
     try {
-      const response = await axios.get(
-        `${config.API_URL}/api/appointments`
-      );
+      const response = await axios.get( "http://192.168.1.2:3000/api/appointments");
 
       if (response.status === 200) {
-
-
         // Filter appointments safely, ensuring patientId and _id exist
-        const userAppointments = response.data.filter((appointment: Appointment) => {
-          return appointment.patientId && appointment.patientId._id === userId;
-        });
+        const userAppointments = response.data.filter(
+          (appointment: Appointment) => {
+            return (
+              appointment.patientId && appointment.patientId._id === userId
+            );
+          }
+        );
 
         //console.log("Filtered appointments for user:", userAppointments);
 
@@ -112,10 +112,15 @@ export const AppointmentProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-
-
   return (
-    <AppointmentContext.Provider value={{ appointments, createAppointment, getAppointmentById, getAppointmentsForUser }}>
+    <AppointmentContext.Provider
+      value={{
+        appointments,
+        createAppointment,
+        getAppointmentById,
+        getAppointmentsForUser,
+      }}
+    >
       {children}
     </AppointmentContext.Provider>
   );
